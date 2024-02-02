@@ -1,0 +1,28 @@
+/* Estilos para el fondo y el diseño general del salón */
+.salon {
+    background-color: #f5f5f5; /* Color de fondo */
+    padding: 20px; /* Espaciado interno */
+    border: 1px solid #ddd; /* Borde simple */
+  }
+  
+  /* Estilos para el título del salón */
+  .salon h2 {
+    color: #333; /* Color del texto */
+    margin-bottom: 15px; /* Margen inferior */
+  }
+  
+  /* Estilos para diferentes elementos en el salón, como luz, televisión, persiana, etc. */
+  .luz-de-techo {
+    /* Estilos para la luz de techo */
+  }
+  
+  .television {
+    /* Estilos para la televisión */
+  }
+  
+  .persiana {
+    /* Estilos para la persiana */
+  }
+  
+  /* Agrega más estilos según sea necesario para otros elementos en el salón */
+  

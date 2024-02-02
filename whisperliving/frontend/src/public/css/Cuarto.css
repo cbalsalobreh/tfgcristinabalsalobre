@@ -1,0 +1,15 @@
+/* Estilos para el fondo y el diseño general del cuarto */
+.cuarto {
+    background-color: #e6f7ff; /* Color de fondo */
+    padding: 20px; /* Espaciado interno */
+    border: 1px solid #66b2ff; /* Borde simple */
+  }
+  
+  /* Estilos para el título del cuarto */
+  .cuarto h2 {
+    color: #004080; /* Color del texto */
+    margin-bottom: 10px; /* Margen inferior */
+  }
+  
+  /* Agrega más estilos según sea necesario para otros elementos en el cuarto */
+  

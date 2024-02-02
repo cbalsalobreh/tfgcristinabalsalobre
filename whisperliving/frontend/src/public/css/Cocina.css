@@ -1,0 +1,22 @@
+/* Estilos generales para el contenedor de la cocina */
+.cocina {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  /* Estilos para la luz de techo */
+  .luz-de-techo {
+    background-color: yellow;
+    border: 1px solid #ffcc00;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para el control de temperatura */
+  .control-temperatura {
+    background-color: #e6e6e6;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  

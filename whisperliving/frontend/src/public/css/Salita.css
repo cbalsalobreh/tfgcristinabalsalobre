@@ -1,0 +1,15 @@
+/* Estilos para el fondo y el diseño general de la salita */
+.salita {
+    background-color: #fff3e6; /* Color de fondo */
+    padding: 15px; /* Espaciado interno */
+    border: 1px solid #ffcc99; /* Borde simple */
+  }
+  
+  /* Estilos para el título de la salita */
+  .salita h2 {
+    color: #cc6600; /* Color del texto */
+    margin-bottom: 10px; /* Margen inferior */
+  }
+  
+  /* Agrega más estilos según sea necesario para otros elementos en la salita */
+  
