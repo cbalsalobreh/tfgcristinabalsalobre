@@ -6,9 +6,9 @@ import '../../public/css/Cocina.css'
 function Cocina() {
   return (
     <div className="cocina">
-      <h2>Cocina</h2>
       <LuzDeTecho />
       <ControlTemperatura />
+      <h2>Cocina</h2>
     </div>
   );
 }

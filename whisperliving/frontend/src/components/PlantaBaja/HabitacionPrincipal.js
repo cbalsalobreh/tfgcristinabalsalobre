@@ -6,9 +6,9 @@ import '../../public/css/HabitacionPrincipal.css'
 function HabitacionPrincipal() {
   return (
     <div className="habitacion-principal">
-      <h2>Habitación Principal</h2>
       <LuzDeTecho />
       <Lampara />
+      <h2>Habitación Principal</h2>
     </div>
   );
 }

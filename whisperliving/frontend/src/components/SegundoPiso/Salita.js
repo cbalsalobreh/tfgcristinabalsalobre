@@ -3,15 +3,15 @@ import '../../public/css/Salita.css';
 import LuzDeTecho from '../Elementos/LuzDeTecho';
 import ControlTemperatura from '../Elementos/ControlTemperatura';
 
-function Salon() {
+function Salita() {
   return (
-    <div className="salon">
-      <h2>Salón</h2>
+    <div className="salita">
       <LuzDeTecho />
       <ControlTemperatura />
       <ControlTemperatura />
+      <h2>Salita</h2>
     </div>
   );
 }
 
-export default Salon;
+export default Salita;

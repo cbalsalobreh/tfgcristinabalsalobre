@@ -8,8 +8,8 @@ function App() {
   return (
     <div className="app">
       <h1>Casa Domótica</h1>
-      <PlantaBaja />
       <SegundoPiso />
+      <PlantaBaja />
     </div>
   );
 }

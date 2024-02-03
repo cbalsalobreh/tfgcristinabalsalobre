@@ -1,15 +1,27 @@
 /* Estilos para el fondo y el diseño general de la habitación principal */
 .habitacion-principal {
-    background-color: #f0f0f0; /* Color de fondo */
-    padding: 20px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde simple */
+    padding: 0px; /* Espaciado interno */
   }
   
   /* Estilos para el título de la habitación principal */
   .habitacion-principal h2 {
     color: #333; /* Color del texto */
-    margin-bottom: 10px; /* Margen inferior */
+    margin-bottom: 1px; /* Margen inferior */
   }
   
   /* Agrega más estilos según sea necesario para otros elementos en la habitación principal */
-  
+  /* Estilos para la luz de techo */
+  .luz-de-techo {
+    background-color: yellow;
+    border: 1px solid #ffcc00;
+    padding: 1px;
+    margin-bottom: 1px;
+  }
+/* Estilos para la lámpara en la habitación principal */
+.lampara {
+  background-color: #ffd699; /* Color de fondo */
+  border: 1px solid #ff9900; /* Borde simple */
+  padding: 1x; /* Espaciado interno */
+  margin-bottom: 1px; /* Margen inferior */
+}
+

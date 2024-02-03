@@ -7,10 +7,10 @@ import '../../public/css/Salon.css'
 function Salon() {
   return (
     <div className="salon">
-      <h2>Salón</h2>
       <LuzDeTecho />
       <Television />
       <Persiana />
+      <h2>Salón</h2>
     </div>
   );
 }

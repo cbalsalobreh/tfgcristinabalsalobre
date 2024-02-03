@@ -4,14 +4,14 @@ import LuzDeTecho from '../Elementos/LuzDeTecho';
 import ReproductorMusica from '../Elementos/ReproductorMusica';
 
 
-function Salon() {
+function Cuarto() {
   return (
-    <div className="salon">
-      <h2>Salón</h2>
+    <div className="cuarto">
       <LuzDeTecho />
       <ReproductorMusica />
+      <h2>Cuarto</h2>
     </div>
   );
 }
 
-export default Salon;
+export default Cuarto;
