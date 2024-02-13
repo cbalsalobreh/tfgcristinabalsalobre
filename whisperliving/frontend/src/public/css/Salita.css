@@ -8,11 +8,8 @@
     color: black; /* Color del texto */
     margin-bottom: 1px; /* Margen inferior */
   }
-  
-  /* Agrega más estilos según sea necesario para otros elementos en la salita */
-  .control-temperatura {
-    background-color: #ff6666;
-    border: 1px solid #cc0000;
-    padding: 1px;
-    margin-bottom: 1px;   
+
+  .salita .control-temperatura{
+    position: relative;
+    top: 23px;
   }

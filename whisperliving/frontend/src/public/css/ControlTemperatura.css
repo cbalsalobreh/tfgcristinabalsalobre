@@ -1,0 +1,14 @@
+
+.control-temperatura {
+    background-color: hsl(210, 70%, 85%);
+    border: 1px solid black;
+    padding: 0px;
+    margin-bottom: 0px;   
+    width: 150px;
+    height: 80px;
+    border-radius: 30px;
+}
+
+.control-temperatura h4{
+    text-align: center;
+}

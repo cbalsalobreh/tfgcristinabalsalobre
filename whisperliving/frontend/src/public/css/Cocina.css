@@ -5,21 +5,10 @@
 
   .cocina h2 {
     color: #333; /* Color del texto */
-    margin-bottom: 1px; /* Margen inferior */
+    margin-bottom: 0px; /* Margen inferior */
   }
-  
-  /* Estilos para la luz de techo */
-  .luz-de-techo {
-    background-color: yellow;
-    border: 1px solid #ffcc00;
-    padding: 1px;
-    margin-bottom: 1px;
+
+  .cocina .control-temperatura{
+    position: relative;
+    top: 23px;
   }
-  
-  /* Estilos para el control de temperatura */
-  .control-temperatura {
-    background-color: #e6e6e6;
-    border: 1px solid #ccc;
-    padding: 1px;
-  }
-  

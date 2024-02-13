@@ -1,0 +1,14 @@
+.television {
+    background-color: lightskyblue; 
+    border: 1px solid black; 
+    padding: 1px;
+    margin-bottom: 1px;
+    width: 180px;
+    height: 150px;
+    border-radius: 15%;
+    margin-left: auto;
+  }
+  .television h5 {
+    text-align: center;
+  }
+  

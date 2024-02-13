@@ -1,10 +1,10 @@
 import React from 'react';
+import '../../public/css/Persiana.css';
 
 const Persiana = () => {
   return (
     <div className="persiana">
-      <h3>Persiana</h3>
-      <p>Estado: Abierta</p>
+      <h5>Persiana</h5>
     </div>
   );
 };

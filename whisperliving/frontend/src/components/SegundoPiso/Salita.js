@@ -7,8 +7,8 @@ function Salita() {
   return (
     <div className="salita">
       <LuzDeTecho />
-      <ControlTemperatura />
-      <ControlTemperatura />
+      <ControlTemperatura /> <h4>Aire Acondicionado</h4>
+      <ControlTemperatura /> <h4>Calefacción</h4>
       <h2>Salita</h2>
     </div>
   );

@@ -1,29 +1,10 @@
 /* Estilos para el fondo y el diseño general del cuarto */
 .cuarto {
-    padding: 1px; /* Espaciado interno */
+    padding: 0px; 
+    position: relative;
   }
   
-  /* Estilos para el título del cuarto */
   .cuarto h2 {
-    color: #000000; /* Color del texto */
-    margin-bottom: 1px; /* Margen inferior */
-  }
-  
-  /* Agrega más estilos según sea necesario para otros elementos en el cuarto */
-    /* Estilos para la luz de techo */
-  .luz-de-techo {
-    background-color: yellow;
-    border: 1px solid #ffcc00;
-    padding: 1px;
-    margin-bottom: 1px;
-    }
-
-
-/* Estilos para el reproductor de música */
-  .reproductor-musica {
-    background-color: #e6e6e6;
-    border: 1px solid #b3b3b3;
-    padding: 1px;
-    margin-bottom: 1px;
-  /* Agrega más estilos según sea necesario */
+    color: #000000; 
+    margin-bottom: 1px; 
   }

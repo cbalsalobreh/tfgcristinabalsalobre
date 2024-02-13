@@ -1,11 +1,11 @@
 // ControlTemperatura.js
 import React from 'react';
+import '../../public/css/ControlTemperatura.css'
 
 const ControlTemperatura = () => {
   return (
     <div className="control-temperatura">
-      <h3>Control de Temperatura</h3>
-      <p>Temperatura Actual: 22°C</p>
+      <h4>Temperatura Actual </h4>
     </div>
   );
 };

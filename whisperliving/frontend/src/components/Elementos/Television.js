@@ -1,11 +1,12 @@
 import React from 'react';
+import '../../public/css/Television.css'
 
 const Television = () => {
   return (
     <div className="television">
-      <h3>Televisión</h3>
-      <p>Estado: Encendida</p>
-      <p>Canal: 1</p>
+      <h5>Televisión</h5>
+      <p>Estado: </p>
+      <p>Canal: </p>
     </div>
   );
 };

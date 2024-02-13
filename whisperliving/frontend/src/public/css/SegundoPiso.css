@@ -3,8 +3,7 @@
     width: 900px;
     height: 401px;
     border: 1px solid #000;
-    margin: 1px auto;
-    float: left;
+    margin: 0px auto;
   }
   
   .cuarto1,
@@ -33,3 +32,11 @@
     left: 300px;
   }
   
+
+.cuarto1 .reproductor-musica {
+  left:0;
+}
+
+.cuarto2 .reproductor-musica {
+  right:0;
+}

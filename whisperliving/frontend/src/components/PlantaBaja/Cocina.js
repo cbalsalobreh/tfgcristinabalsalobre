@@ -7,7 +7,8 @@ function Cocina() {
   return (
     <div className="cocina">
       <LuzDeTecho />
-      <ControlTemperatura />
+      <ControlTemperatura /> <h4>Nevera</h4>
+      <ControlTemperatura /> <h4>Congelador</h4>
       <h2>Cocina</h2>
     </div>
   );

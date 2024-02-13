@@ -1,0 +1,37 @@
+/* Estilos para la lámpara en la habitación principal */
+.lampara {
+    background-color: white; 
+    border: 0px solid black; 
+    padding: 1px; 
+    margin-bottom: 1px; 
+    width: 120px;
+    height: 260px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+
+.lampara h5 {
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.lampara .cable {
+    width: 10px;
+    height: 220px;
+    background-color: #777;
+    position: absolute;
+    border-radius: 15%;
+    top: -1px;
+}
+
+
+.lampara .foco {
+    width: 70px;
+    height: 70px;
+    background-color: goldenrod;
+    border-radius: 30%;
+    position: absolute;
+    top: -1px;
+}

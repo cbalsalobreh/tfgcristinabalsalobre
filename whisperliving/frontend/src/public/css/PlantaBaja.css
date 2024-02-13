@@ -3,8 +3,7 @@
   width: 900px;
   height: 401px;
   border: 1px solid #000;
-  margin: 1px auto;
-  float: left;
+  margin: 0px auto;
   }
   
   .habitacion-principal,
@@ -29,5 +28,9 @@
   .salon {
     width: 300px;
     left: 0px;
+  }
+
+  .salon .television{
+    float: right;
   }
   

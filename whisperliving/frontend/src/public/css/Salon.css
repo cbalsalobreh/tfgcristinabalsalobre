@@ -1,34 +1,15 @@
-/* Estilos para el fondo y el diseño general del salón */
-.salon {
-    padding: 0px; /* Espaciado interno */
-  }
-  
-  /* Estilos para el título del salón */
-  .salon h2 {
-    color: #333; /* Color del texto */
-    margin-bottom: 1px; /* Margen inferior */
-  }
-  
-  /* Estilos para la luz de techo */
-  .luz-de-techo {
-    background-color: yellow;
-    border: 1px solid #ffcc00;
-    padding: 1px;
-    margin-bottom: 1px;
-  }
-  
-/* Estilos para la televisión en el salón */
-.television {
-  background-color: #b3d9ff; /* Color de fondo */
-  border: 1px solid #3366cc; /* Borde simple */
-  padding: 1px;
-  margin-bottom: 1px;
-}
 
-/* Estilos para la persiana en el salón */
-.persiana {
-  background-color: #b3ffb3; /* Color de fondo */
-  border: 1px solid #4cae4c; /* Borde simple */
-  padding: 1px;
-  margin-bottom: 1px;
-}
+.salon {
+    padding: 0px;
+  }
+  
+
+  .salon h2 {
+    color: #333;
+    margin-bottom: 1px; 
+  }
+
+  .salon .television{
+    position: relative;
+    top: 80px;
+  }
