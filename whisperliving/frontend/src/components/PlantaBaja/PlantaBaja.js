@@ -2,6 +2,7 @@ import React from 'react';
 import HabitacionPrincipal from './HabitacionPrincipal';
 import Cocina from './Cocina';
 import Salon from './Salon';
+import Jardin from './Jardin';
 import '../../public/css/PlantaBaja.css';
 
 function PlantaBaja() {
@@ -15,6 +16,9 @@ function PlantaBaja() {
       </div>
       <div className="habitacion-principal">
         <HabitacionPrincipal />
+      </div>
+      <div className='jardin'>
+        <Jardin />
       </div>
     </div>
   );

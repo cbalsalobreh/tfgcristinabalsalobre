@@ -1,8 +1,7 @@
 .segundo-piso {
-    position: relative;
+    position: left;
     width: 900px;
-    height: 401px;
-    border: 1px solid #000;
+    height: 400px;
     margin: 0px auto;
   }
   
@@ -10,8 +9,8 @@
   .cuarto2,
   .salita {
     position: absolute;
-    border: 1px solid #000;
     height: 400px;
+    border: 1px solid #000;
   }
   
   .cuarto1,
