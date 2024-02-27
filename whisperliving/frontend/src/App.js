@@ -1,17 +1,15 @@
-import logo from './logo.svg';
 import React from 'react';
-import PlantaBaja from './components/PlantaBaja/PlantaBaja';
-import SegundoPiso from './components/SegundoPiso/SegundoPiso';
-import './App.css';
+//import { BrowserRouter as Router } from '@reach/router';
+import LoginForm from './components/Login/LoginForm.js';
+//import CasaDomotica from './components/Casa/CasaDomotica.js';
 
 function App() {
   return (
-    <div className="app">
-      <h1>Casa Domótica</h1>
-      <SegundoPiso />
-      <PlantaBaja />
-    </div>
+      <div className="App">
+        <LoginForm />
+      </div>
   );
 }
 
 export default App;
+

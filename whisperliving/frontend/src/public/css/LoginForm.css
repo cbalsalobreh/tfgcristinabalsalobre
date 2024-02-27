@@ -1,0 +1,58 @@
+/* Estilos generales */
+body {
+    background-color: lightblue;
+}
+
+.login-form-container {
+    max-width: 430px;
+    margin: 200px auto 0;
+    padding: 30px;
+    border: 0px solid lightblue;
+    border-radius: 5px;
+    background-color: lightblue;
+    
+}
+
+.login-form h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(0, 110, 255);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background-color: darkblue;
+}
+
+.login-form p {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    color: red;
+}
