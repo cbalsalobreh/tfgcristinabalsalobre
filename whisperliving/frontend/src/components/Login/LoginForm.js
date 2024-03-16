@@ -1,40 +1,51 @@
 import React, { useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
-import '../../public/css/LoginForm.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate para manejar la redirección
+import '../../public/css/LoginForm.css'
 
 function LoginForm() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [loginUsername, setLoginUsername] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
     const [message, setMessage] = useState('');
-    //const navigate = useNavigate();
+    const history = useNavigate(); // Inicializa useNavigate para manejar la redirección
 
-    const handleSubmit = (event) => {
+    const handleLoginSubmit = async (event) => {
         event.preventDefault();
         
-        //Validación del usuario y la contraseña
-        if (username === 'usuario' && password === 'contraseña') {
-            setMessage('Inicio de sesión exitoso');
-            //navigate.push('/casa-domotica');
-        } else {
-            setMessage('Usuario o contraseña incorrectos');
+        try {
+            const response = await axios.post('/', {
+                user: loginUsername,
+                password: loginPassword
+            });
+            setMessage(response.data.message);
+        } catch (error) {
+            setMessage(error.response.data.message);
         }
     };
 
+    // Función para redirigir a la página de registro
+    const redirectToRegister = () => {
+        history("/register");
+    };
+
     return (
-        <div className='login-form-container'>
-            <h1>LOGIN</h1>
-            <form className='login-form' onSubmit={handleSubmit}>
-                <div className='form-group'>
-                    <label htmlFor="username">Usuario:</label>
-                    <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                </div>
-                <div className='form-group'>
-                    <label htmlFor="password">Contraseña:</label>
-                    <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Iniciar Sesión</button>
-            </form>
-            <p style={{ color: message.startsWith('Inicio') ? 'green' : 'red' }}>{message}</p>
+        <div className='login-container'>
+            <div className='login-form-container'>
+                <h2>Iniciar Sesión</h2>
+                <form className='login-form' onSubmit={handleLoginSubmit}>
+                    <div className='form-group'>
+                        <label htmlFor="loginUsername">Usuario:</label>
+                        <input type="text" id="loginUsername" value={loginUsername} onChange={(e) => setLoginUsername(e.target.value)} required />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor="loginPassword">Contraseña:</label>
+                        <input type="password" id="loginPassword" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} required />
+                    </div>
+                    <button type="submit">Iniciar Sesión</button>
+                </form>
+                <button onClick={redirectToRegister}>Registrarse</button>
+            </div>
+            <p className='message' style={{ color: message && message.startsWith('Registro') ? 'green' : 'red' }}>{message}</p>
         </div>
     );
 }

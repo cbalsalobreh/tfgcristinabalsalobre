@@ -1,12 +1,19 @@
 import React from 'react';
-//import { BrowserRouter as Router } from '@reach/router';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginForm from './components/Login/LoginForm.js';
-//import CasaDomotica from './components/Casa/CasaDomotica.js';
+import RegisterForm from './components/Login/RegisterForm.js';
+import CasaDomotica from './components/Casa/CasaDomotica.js';
 
 function App() {
   return (
       <div className="App">
-        <LoginForm />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/casa-domotica" Component={<CasaDomotica />}/>
+          </Routes>
+        </BrowserRouter>
       </div>
   );
 }
