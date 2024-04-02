@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 # Configuración para conectarse a la base de datos MySQL en RDS
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:cYa8pAzNMGdEgUJ4R66S@database-cbhtfg.clcmyie6w5ac.eu-west-1.rds.amazonaws.com/database-cbhtfg'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:cYa8pAzNMGdEgUJ4R66S@databasecbhtfg.clcmyie6w5ac.eu-west-1.rds.amazonaws.com/database-cbhtfg'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'super-secret-key'  # Clave secreta para firmar los tokens JWT
 db = SQLAlchemy(app)
@@ -20,31 +20,36 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
 
 
-# Ruta para el registro de usuarios y el inicio de sesión
-@app.route('/login', methods=['POST'])
-def login_or_register():
+# Ruta para el registro de usuarios
+@app.route('/register', methods=['POST'])
+def register():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-    email = data.get('email') 
-    action = data.get('action')  # Agregar campo 'action' para distinguir entre registro e inicio de sesión
+    email = data.get('email')
 
-    if action == 'register':
-        # Registro de un nuevo usuario
-        new_user = User(username=username, password=password, email=email)
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({'message': 'User registered successfully'})
-    elif action == 'login':
-        # Inicio de sesión de un usuario existente
-        user = User.query.filter_by(username=username).first()
-        if user and user.password == password:
-            access_token = create_access_token(identity=username)
-            return jsonify({'access_token': access_token})
-        else:
-            return jsonify({'message': 'Invalid username or password'}), 401
+    # Registro de un nuevo usuario
+    new_user = User(username=username, password=password, email=email)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({'message': 'User registered successfully'})
+
+# Ruta para el inicio de sesión de usuarios
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    # Inicio de sesión de un usuario existente
+    user = User.query.filter_by(username=username).first()
+    if user and user.password == password:
+        access_token = create_access_token(identity=username)
+        return jsonify({'access_token': access_token})
     else:
-        return jsonify({'message': 'Invalid action'}), 400
+        return jsonify({'message': 'Invalid username or password'}), 401
+
 
 # Ruta protegida
 @app.route('/casa-domotica', methods=['GET'])

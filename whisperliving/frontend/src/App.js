@@ -11,7 +11,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
-            <Route path="/casa-domotica" Component={<CasaDomotica />}/>
+            <Route path="/casa-domotica" element={<CasaDomotica />}/>
           </Routes>
         </BrowserRouter>
       </div>
