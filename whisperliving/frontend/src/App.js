@@ -5,6 +5,8 @@ import RegisterForm from './components/Login/RegisterForm.js';
 import CasaDomotica from './components/Casa/CasaDomotica.js';
 
 function App() {
+
+  
   return (
       <div className="App">
         <BrowserRouter>

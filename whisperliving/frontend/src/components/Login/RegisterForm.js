@@ -11,13 +11,7 @@ function RegisterForm() {
     const navigate = useNavigate();
 
     const handleRegisterSubmit = async (event) => {
-        event.preventDefault();
-        
-        // Validación de entrada
-        if (registerUsername === '' || registerPassword === '' || registerEmail === '') {
-            setMessage('Por favor, complete todos los campos');
-            return;
-        }
+        event.React();
     
         // Continuar con el envío del formulario
         try {
