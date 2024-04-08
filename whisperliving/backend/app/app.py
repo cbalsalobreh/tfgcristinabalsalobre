@@ -18,43 +18,46 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 def clean_audio_bytes(audio_bytes):
-  """
-  Attempts to clean audio data and convert it to WAV format (if necessary)
-  """
-  try:
-    with wave.open(io.BytesIO(audio_bytes), 'rb') as wav_file:
-      # Check audio format (adjust based on your needs)
-      if wav_file.getsampwidth() != 2:
-        raise ValueError("Unsupported audio format")
-      # Read frames and remove potential null bytes (optional)
-      frames = wav_file.readframes(wav_file.getnframes())
-      cleaned_frames = b''.join(frame for frame in frames if frame != b'\0')
-      return cleaned_frames
-  except wave.Error:
-    # Handle WAV format error (e.g., send error message to client)
-    print("Received data is not a valid WAV file")
-    # Optionally, try converting to WAV format using soundfile
-    # cleaned_audio_bytes = convert_to_wav(audio_bytes)  # Implement conversion logic
-    return None
+    """
+    Attempts to clean audio data.
+    """
+    try:
+        if isinstance(audio_bytes, bytes):
+            cleaned_bytes = b''.join(frame for frame in audio_bytes if isinstance(frame, bytes) and frame != b'\0')
+            return cleaned_bytes
+        else:
+            raise TypeError("Received data is not of bytes-like object type")
+    except Exception as e:
+        print(f"Error while cleaning audio: {e}")
+        return None
 
 @socketio.on('audio')
 def handle_audio(audio_data):
-    audio_model = whisper.load_model("medium")  # Ruta correcta al modelo Whisper
+    print("Received audio data")
+
+    try:
+        audio_model = whisper.load_model("medium")  # Ruta correcta al modelo Whisper
+    except FileNotFoundError:
+        print("Whisper model not found")
+        return
+
     audio_bytes = base64.b64decode(audio_data)
 
     try:
-        # Clean the audio data (assuming clean_audio_bytes function is implemented)
+        print("Cleaning audio data...")
         cleaned_audio_bytes = clean_audio_bytes(audio_bytes)
-
-        # Check if cleaned_audio_bytes is not None before using it
         if cleaned_audio_bytes is not None:
-            audio  = whisper.load_audio(cleaned_audio_bytes)
+            print("Audio data cleaned successfully")
+            print("Transcribing audio...")
+            audio = whisper.load_audio(cleaned_audio_bytes)
             transcript = audio_model.transcribe(audio, language='es')
+            print("Audio transcribed successfully")
             socketio.emit('transcription', transcript, namespace='/casa-domotica')
         else:
             print("Error: Unable to clean or process audio data")
     except Exception as e:
         print(f"Error processing audio: {e}")
+
 
 # Configuración para conectarse a la base de datos MySQL en RDS
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:cYa8pAzNMGdEgUJ4R66S@databasecbhtfg.clcmyie6w5ac.eu-west-1.rds.amazonaws.com/database-cbhtfg'
