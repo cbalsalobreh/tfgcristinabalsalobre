@@ -57,10 +57,10 @@ const CasaDomotica = () => {
         {audioUrl && (
           <div>
             <audio controls>
-              <source src={audioUrl} type="audio/wav" />
+              <source src={audioUrl}/>
               Su navegador no soporta el elemento de audio.
             </audio>
-            <a href={audioUrl} download="grabacion.wav">Descargar audio</a>
+            <a href={audioUrl}>Descargar audio</a>
           </div>
         )}
       </div>

@@ -3,60 +3,44 @@ from flask_socketio import SocketIO, emit
 import whisper
 from flask_cors import CORS
 import base64
-import wave
-import io
+import tempfile
+import os
 # from flask_sqlalchemy import SQLAlchemy
 # from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
-import urllib.request
 from urllib.request import urlopen
 import ssl
-import json
 ssl._create_default_https_context = ssl._create_unverified_context
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
-def clean_audio_bytes(audio_bytes):
-    """
-    Attempts to clean audio data.
-    """
-    try:
-        if isinstance(audio_bytes, bytes):
-            cleaned_bytes = b''.join(frame for frame in audio_bytes if isinstance(frame, bytes) and frame != b'\0')
-            return cleaned_bytes
-        else:
-            raise TypeError("Received data is not of bytes-like object type")
-    except Exception as e:
-        print(f"Error while cleaning audio: {e}")
-        return None
-
 @socketio.on('audio')
 def handle_audio(audio_data):
     print("Received audio data")
-
     try:
-        audio_model = whisper.load_model("medium")  # Ruta correcta al modelo Whisper
-    except FileNotFoundError:
-        print("Whisper model not found")
-        return
+        # Convertir los datos de audio de base64 a bytes
+        audio_bytes = base64.b64decode(audio_data)
 
-    audio_bytes = base64.b64decode(audio_data)
+        # Guardar los datos de audio en un archivo temporal
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
+            temp_audio_file.write(audio_bytes)
+            temp_audio_file_path = temp_audio_file.name
 
-    try:
-        print("Cleaning audio data...")
-        cleaned_audio_bytes = clean_audio_bytes(audio_bytes)
-        if cleaned_audio_bytes is not None:
-            print("Audio data cleaned successfully")
-            print("Transcribing audio...")
-            audio = whisper.load_audio(cleaned_audio_bytes)
-            transcript = audio_model.transcribe(audio, language='es')
-            print("Audio transcribed successfully")
-            socketio.emit('transcription', transcript, namespace='/casa-domotica')
-        else:
-            print("Error: Unable to clean or process audio data")
+        print("Audio guardado en archivo temporal:", temp_audio_file_path)
+
+        # Cargar el audio desde el archivo temporal y procesarlo con Whisper
+        audio = whisper.load_audio(temp_audio_file_path)
+        audio_model = whisper.load_model("medium")
+        transcript = audio_model.transcribe(audio, language='es')
+
+        # Emitir la transcripción (o cualquier otro resultado) de vuelta al cliente
+        text_transcription = transcript['text']
+        socketio.emit('transcription', text_transcription)
+        print("Transcripción emitida al cliente:", transcript)
     except Exception as e:
         print(f"Error processing audio: {e}")
+
 
 
 # Configuración para conectarse a la base de datos MySQL en RDS
