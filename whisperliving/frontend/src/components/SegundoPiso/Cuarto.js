@@ -7,7 +7,7 @@ import ReproductorMusica from '../Elementos/ReproductorMusica';
 function Cuarto() {
   return (
     <div className="cuarto">
-      <LuzDeTecho />
+      <LuzDeTecho encendida={false}/>
       <ReproductorMusica />
       <h2>Cuarto</h2>
     </div>

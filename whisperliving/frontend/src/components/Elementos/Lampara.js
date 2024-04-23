@@ -5,8 +5,8 @@ const Lampara = () => {
   return (
     <div className="lampara">
       <h5>Lámpara</h5>
-      <div class="cable"></div>
-      <div class="foco"></div>
+      <div className="cable"></div>
+      <div className="foco"></div>
     </div>
   );
 };

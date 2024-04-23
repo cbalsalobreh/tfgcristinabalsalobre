@@ -3,12 +3,12 @@ import LuzDeTecho from '../Elementos/LuzDeTecho';
 import ControlTemperatura from '../Elementos/ControlTemperatura';
 import '../../public/css/Cocina.css'
 
-function Cocina() {
+function Cocina({ temperaturaNevera, temperaturaCongelador }) {
   return (
     <div className="cocina">
       <LuzDeTecho />
-      <ControlTemperatura /> <h4>Nevera</h4>
-      <ControlTemperatura /> <h4>Congelador</h4>
+      <ControlTemperatura titulo="Nevera" temperatura={temperaturaNevera}/>
+      <ControlTemperatura titulo="Congelador" temperatura={temperaturaCongelador}/>
       <h2>Cocina</h2>
     </div>
   );

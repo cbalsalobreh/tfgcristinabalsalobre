@@ -18,6 +18,12 @@ const CasaDomotica = () => {
 
   const [transcription, setTranscription] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
+  const [luzPrincipalEncendida, setLuzPrincipalEncendida] = useState(false);
+  const [temperaturaAire, setTemperaturaAire] = useState(null);
+  const [temperaturaCalefaccion, setTemperaturaCalefaccion] = useState(null);
+  const [temperaturaNevera, setTemperaturaNevera] = useState(null);
+  const [temperaturaCongelador, setTemperaturaCongelador] = useState(null);
+
 
   useEffect(() => {
     if (recordingBlob) {
@@ -34,16 +40,72 @@ const CasaDomotica = () => {
   useEffect(() => {
     socket.on('transcription', (data) => {
       setTranscription(data);
+      
+      // Determinar si el texto menciona la temperatura del aire
+      if (data.toLowerCase().includes('temperatura aire')) {
+        const temperatura = obtenerTemperatura(data);
+        setTemperaturaAire(temperatura);
+      } 
+      
+      // Determinar si el texto menciona la temperatura de la calefacción
+      else if (data.toLowerCase().includes('temperatura calefacción')) {
+        const temperatura = obtenerTemperatura(data);
+        setTemperaturaCalefaccion(temperatura);
+      }
+
+      else if (data.toLowerCase().includes('temperatura nevera')){
+        const temperatura = obtenerTemperatura(data);
+        setTemperaturaNevera(temperatura);
+      }
+
+      else if (data.toLowerCase().includes('temperatura congelador menos')){
+        const temperatura = obtenerTemperatura(data);
+        setTemperaturaCongelador(temperatura);
+      }
+
+      // Determinar si el texto menciona encender o apagar la luz principal
+      if (data.toLowerCase().includes('encender luz principal')) {
+        setLuzPrincipalEncendida(true);
+      } else if (data.toLowerCase().includes('apagar luz principal')) {
+        setLuzPrincipalEncendida(false);
+      }
     });
     return () => {
       socket.off('transcription');
     };
   }, []);
 
+  // Función para obtener la temperatura de un texto
+  const obtenerTemperatura = (texto) => {
+    const patron = /(?:menos\s)?(\d+)\s*(?:grados|ºC)/;
+    const coincidencias = texto.match(patron);
+    if (coincidencias && coincidencias.length === 2) {
+      const temperatura = parseInt(coincidencias[1]);
+      return isNaN(temperatura) ? null : (texto.includes("menos") ? `-${temperatura}` : temperatura);
+    } else {
+      return null;
+    }
+  };
+  
+  
+  
+  
+  
+
+
+
   return (
     <div className="casa-domotica">
-      <SegundoPiso />
-      <PlantaBaja />
+      <SegundoPiso temperaturaAire={temperaturaAire}
+        setTemperaturaAire={setTemperaturaAire}
+        temperaturaCalefaccion={temperaturaCalefaccion}
+        setTemperaturaCalefaccion={setTemperaturaCalefaccion}
+        luzPrincipalEncendida={luzPrincipalEncendida}/>
+      <PlantaBaja temperaturaNevera={temperaturaNevera} 
+      setTemperaturaNevera={setTemperaturaNevera} 
+      temperaturaCongelador={temperaturaCongelador} 
+      setTemperaturaCongelador={setTemperaturaCongelador}
+      luzPrincipalEncendida={luzPrincipalEncendida} />
       <div>
         {isRecording && <p>Grabando...</p>}
         {!isRecording && <p>Listo para grabar</p>}

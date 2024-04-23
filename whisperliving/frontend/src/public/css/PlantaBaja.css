@@ -35,4 +35,11 @@
   .salon .television{
     float: right;
   }
-  
+
+.luz-principal {
+  background-color: lightgrey; /* Color cuando la luz está apagada */
+}
+
+.luz-principal.encendida {
+  background-color: yellow; /* Color cuando la luz está encendida */
+}

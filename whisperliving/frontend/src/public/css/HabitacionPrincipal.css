@@ -9,5 +9,23 @@
     margin-bottom: 0px;
   }
 
+/* Estilos para la luz de techo en la habitación principal */
+.habitacion-principal .luz-de-techo {
+  border: 1px solid #ffcc00;
+  width: 150px;
+  height: 50px;
+  border-radius: 50px 50px 0 0;
+  overflow: hidden;
+  padding: 1px;
+  margin-bottom: 1px;
+  margin: auto;
+}
 
+.habitacion-principal .luz-de-techo.luz-encendida {
+    background-color: yellow; /* Cambia a amarillo cuando está encendida */
+}
+
+.habitacion-principal .luz-de-techo.luz-apagada {
+    background-color: #f2f2f2; /* Cambia a gris claro cuando está apagada */
+}
 

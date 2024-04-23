@@ -3,12 +3,12 @@ import '../../public/css/Salita.css';
 import LuzDeTecho from '../Elementos/LuzDeTecho';
 import ControlTemperatura from '../Elementos/ControlTemperatura';
 
-function Salita() {
+function Salita({ temperaturaAire, temperaturaCalefaccion }) {
   return (
     <div className="salita">
       <LuzDeTecho />
-      <ControlTemperatura /> <h4>Aire Acondicionado</h4>
-      <ControlTemperatura /> <h4>Calefacción</h4>
+      <ControlTemperatura titulo="AC" temperatura={temperaturaAire} />
+      <ControlTemperatura titulo="Calefacción" temperatura={temperaturaCalefaccion} />
       <h2>Salita</h2>
     </div>
   );

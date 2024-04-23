@@ -5,8 +5,6 @@ from flask_cors import CORS
 import base64
 import tempfile
 import os
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from urllib.request import urlopen
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -31,68 +29,196 @@ def handle_audio(audio_data):
 
         # Cargar el audio desde el archivo temporal y procesarlo con Whisper
         audio = whisper.load_audio(temp_audio_file_path)
-        audio_model = whisper.load_model("medium")
+        print("Cargado audio en whisper")
+        audio_model = whisper.load_model("small")
+        print("Cargado whisper")
         transcript = audio_model.transcribe(audio, language='es')
 
         # Emitir la transcripción (o cualquier otro resultado) de vuelta al cliente
         text_transcription = transcript['text']
-        socketio.emit('transcription', text_transcription)
+        texto_sin_comas = text_transcription.replace(",", "")
+        socketio.emit('transcription', texto_sin_comas)
         print("Transcripción emitida al cliente:", transcript)
+        # resultado = interpretar_comando(text_transcription)
+        # print(resultado)
+
     except Exception as e:
         print(f"Error processing audio: {e}")
 
+# def interpretar_comando(text_transcription):
+#     palabras = text_transcription.split()
+#     if len(palabras) < 2:
+#         return {'error': 'Comando no válido'}
+
+#     accion = palabras[0]
+#     dispositivo = palabras[1]
+#     lugar = palabras[2]
+
+#     # ENCENDER Y APAGAR
+#     if accion == 'Encender' or accion == 'encender' or accion == 'Apagar':
+#         # LUCES
+#         if dispositivo == 'luz' and lugar == 'principal.':
+#             return habitacion_principal_luz()
+    #     elif dispositivo == 'lampara':
+    #         return habitacion_principal_lampara()
+    #     elif dispositivo == 'luz' and lugar == 'salón':
+    #         return salon_luz()
+    #     elif dispositivo == 'luz' and lugar == 'cocina':
+    #         return cocina_luz()
+    #     elif dispositivo == 'luz' and lugar == 'cuarto 1':
+    #         return cuarto1_luz()
+    #     elif dispositivo == 'luz' and lugar == 'cuarto 2':
+    #         return cuarto2_luz()
+    #     elif dispositivo == 'luz' and lugar == 'salita':
+    #         return salita_luz()
+        
+    #     # ELECTRODOMESTICOS
+    #     elif dispositivo == 'aire':
+    #         return salita_aire()
+    #     elif dispositivo == 'calefaccion':
+    #         return salita_calefaccion()
+        
+    # elif accion == 'Temperatura':
+    #     if dispositivo == 'nevera':
+    #         return cocina_nevera()
+    #     elif dispositivo == 'congelador':
+    #         return cocina_congelador()
+
+    # elif accion == 'Activar' or accion == 'Desactivar':
+    #     return jardin_riego()
+
+    # elif accion == 'Subir' or accion == 'Bajar':
+    #     if dispositivo == 'persiana':
+    #         return salon_persiana()
+    #     elif dispositivo == 'toldo':
+    #         return jardin_toldo()
+        
+    # elif accion == 'Echar' or accion == 'Recoger':
+    #     return jardin_toldo()
+        
+
+    # Si ninguna condición coincide, devolver un error
+    return {'error': 'Comando no válido'}
 
 
-# Configuración para conectarse a la base de datos MySQL en RDS
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:cYa8pAzNMGdEgUJ4R66S@databasecbhtfg.clcmyie6w5ac.eu-west-1.rds.amazonaws.com/database-cbhtfg'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['JWT_SECRET_KEY'] = 'super-secret-key'  # Clave secreta para firmar los tokens JWT
-# db = SQLAlchemy(app)
-# jwt = JWTManager(app)
+# Estado inicial de los componentes
+components_state = {
+    'habitacion_principal': {
+        'luz_de_techo': 'apagada',
+        'lampara': 'apagada'
+    },
+    'salon': {
+        'luz_de_techo': 'apagada',
+        'television': {'encendida': False, 'canal': 0},
+        'persiana' : 'bajada'
+    },
+    'salita': {
+        'luz_de_techo': 'apagada',
+        'aire_acondicionado': {'encendido': False, 'temperatura': 0},
+        'calefaccion': {'encendida': False, 'temperatura': 0}
+    },
+    'cocina': {
+        'luz_de_techo': 'apagada',
+        'congelador': {'temperatura': 0},
+        'nevera': {'temperatura': 0}
+    },
+    'cuarto_1': {
+        'luz_de_techo': 'apagada'
+    },
+    'cuarto_2': {
+        'luz_de_techo': 'apagada'
+    },
+    'jardin': {
+        'toldo': 'guardado',
+        'riego': 'desactivado'
+    }
+}
 
-# Definición del modelo de usuario
-# class User(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(50), unique=True, nullable=False)
-#     password = db.Column(db.String(100), nullable=False)
-#     email = db.Column(db.String(100), unique=True, nullable=False)
+# Rutas para la habitación principal
+@socketio.on('accion_luz_habitacion_principal')
+def habitacion_principal_luz():
+    # Cambiar el estado de la luz de techo
+    current_state = components_state['habitacion_principal']['luz_de_techo']
+    new_state = 'encendida' if current_state == 'apagada' else 'apagada'
+    print("Nuevo estado de luz")
+    components_state['habitacion_principal']['luz_de_techo'] = new_state
 
-# Ruta para el registro de usuarios
-# @app.route('/register', methods=['POST'])
-# def register():
-    # data = request.get_json()
-    # username = data.get('username')
-    # password = data.get('password')
-    # email = data.get('email')
+    # Emitir el estado de la luz de techo a través de Socket.IO
+    socketio.emit('estado_luz_habitacion_principal', new_state)
+    print("Nuevo estado de luz enviado a frontend")
 
-    # Registro de un nuevo usuario
-    # new_user = User(username=username, password=password, email=email)
-    # db.session.add(new_user)
-    # db.session.commit()
+    # Devolver el nuevo estado de la luz de techo
+    return jsonify({'estado': new_state})
 
-    # return jsonify({'message': 'User registered successfully'})
+@app.route('/casa-domotica/habitacion-principal/lampara', methods=['POST'])
+def habitacion_principal_lampara():
+    pass
+        
+@app.route('/casa-domotica/habitacion-principal/persiana', methods=['POST'])
+def habitacion_principal_persiana():
+    pass
 
-# Ruta para el inicio de sesión de usuarios
-# @app.route('/login', methods=['POST'])
-# def login():
-    # data = request.get_json()
-    # username = data.get('username')
-    # password = data.get('password')
+# Rutas para el salón
+@app.route('/casa-domotica/salon/luz', methods=['POST'])
+def salon_luz():
+    pass
 
-    # Inicio de sesión de un usuario existente
-    # user = User.query.filter_by(username=username).first()
-    # if user and user.password == password:
-        # access_token = create_access_token(identity=username)
-        # return jsonify({'access_token': access_token})
-    # else:
-        # return jsonify({'message': 'Invalid username or password'}), 401
+@app.route('/casa-domotica/salon/television', methods=['POST'])
+def salon_television():
+    pass
+        
+# Rutas para la cocina
+@app.route('/casa-domotica/cocina/luz', methods=['POST'])
+def cocina_luz():
+    pass
 
-# Ruta protegida para grabar audio y obtener datos de usuario
-# @app.route('/casa-domotica', methods=['GET'])
-# @jwt_required()
-# def casa_domotica():
-    # current_user = get_jwt_identity()
-    # return jsonify(logged_in_as=current_user), 200
+@app.route('/casa-domotica/cocina/nevera', methods=['POST'])
+def cocina_nevera():
+    pass
+
+@app.route('/casa-domotica/cocina/congelador', methods=['POST'])
+def cocina_congelador():
+    pass
+
+# Rutas para Cuarto 1
+@app.route('/casa-domotica/cuarto-1/luz', methods=['POST'])
+def cuarto1_luz():
+    pass
+
+@app.route('/casa-domotica/cuarto-1/reproductor-musica', methods=['POST'])
+def cuarto1_reproductor():
+    pass
+
+# Rutas para Cuarto 2
+@app.route('/casa-domotica/cuarto-2/luz', methods=['POST'])
+def cuarto2_luz():
+    pass
+
+@app.route('/casa-domotica/cuarto-2/reproductor-musica', methods=['POST'])
+def cuarto2_reproductor():
+    pass
+
+# Rutas para Salita
+@app.route('/casa-domotica/salita/luz', methods=['POST'])
+def salita_luz():
+    pass
+
+@app.route('/casa-domotica/salita/aire-acondicionado', methods=['POST'])
+def salita_aire():
+    pass
+
+@app.route('/casa-domotica/salita/calefaccion', methods=['POST'])
+def salita_calefaccion():
+    pass
+
+# Rutas para Jardín
+@app.route('/casa-domotica/jardin/toldo', methods=['POST'])
+def jardin_toldo():
+    pass
+
+@app.route('/casa-domotica/jardin/riego', methods=['POST'])
+def jardin_riego():
+    pass
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5001)
