@@ -23,6 +23,8 @@ const CasaDomotica = () => {
   const [temperaturaCalefaccion, setTemperaturaCalefaccion] = useState(null);
   const [temperaturaNevera, setTemperaturaNevera] = useState(null);
   const [temperaturaCongelador, setTemperaturaCongelador] = useState(null);
+  const [tvEstado, setTvEstado] = useState('Apagada');
+  const [tvCanal, setTvCanal] = useState('');
 
 
   useEffect(() => {
@@ -69,6 +71,29 @@ const CasaDomotica = () => {
       } else if (data.toLowerCase().includes('apagar luz principal')) {
         setLuzPrincipalEncendida(false);
       }
+
+      // Si se menciona "encender televisión"
+      if (data.toLowerCase().includes('encender televisión')) {
+        let estado = 'Encendida';
+        let canal = '';
+
+        // Obtener el canal si se menciona después de "encender televisión"
+        const coincidencias = data.toLowerCase().match(/encender televisión canal (\d+)/);
+        if (coincidencias && coincidencias.length === 2) {
+          canal = parseInt(coincidencias[1]);
+        }
+
+        // Actualizar el estado de la televisión y el canal
+        setTvEstado(estado);
+        setTvCanal(canal);
+      }
+
+      // Si se menciona "apagar televisión"
+      if (data.toLowerCase().includes('apagar televisión')) {
+        // Actualizar el estado de la televisión como apagada y sin canal
+        setTvEstado('Apagada');
+        setTvCanal('');
+      }
     });
     return () => {
       socket.off('transcription');
@@ -105,7 +130,8 @@ const CasaDomotica = () => {
       setTemperaturaNevera={setTemperaturaNevera} 
       temperaturaCongelador={temperaturaCongelador} 
       setTemperaturaCongelador={setTemperaturaCongelador}
-      luzPrincipalEncendida={luzPrincipalEncendida} />
+      luzPrincipalEncendida={luzPrincipalEncendida} 
+      tvEstado={tvEstado} setTvEstado={setTvEstado} tvCanal={tvCanal} setTvCanal={setTvCanal} />
       <div>
         {isRecording && <p>Grabando...</p>}
         {!isRecording && <p>Listo para grabar</p>}
