@@ -1,12 +1,13 @@
 import React from 'react';
 import '../../public/css/Salita.css';
-import LuzDeTecho from '../Elementos/LuzDeTecho';
+import LuzDeTechoApagada from '../Elementos/LuzDeTechoApagada';
+import LuzDeTechoEncendida from '../Elementos/LuzDeTechoEncendida';
 import ControlTemperatura from '../Elementos/ControlTemperatura';
 
-function Salita({ temperaturaAire, temperaturaCalefaccion }) {
+function Salita({ temperaturaAire, temperaturaCalefaccion, luzSalita }) {
   return (
     <div className="salita">
-      <LuzDeTecho />
+      { luzSalita ? <LuzDeTechoEncendida /> : <LuzDeTechoApagada /> }
       <ControlTemperatura titulo="AC" temperatura={temperaturaAire} />
       <ControlTemperatura titulo="Calefacción" temperatura={temperaturaCalefaccion} />
       <h2>Salita</h2>

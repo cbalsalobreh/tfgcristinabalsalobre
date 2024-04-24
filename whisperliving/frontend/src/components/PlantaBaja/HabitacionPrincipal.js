@@ -1,12 +1,13 @@
 import React from 'react';
-import LuzDeTecho from '../Elementos/LuzDeTecho';
+import LuzDeTechoEncendida from '../Elementos/LuzDeTechoEncendida';
+import LuzDeTechoApagada from '../Elementos/LuzDeTechoApagada';
 import Lampara from '../Elementos/Lampara';
 import '../../public/css/HabitacionPrincipal.css';
 
-const HabitacionPrincipal = ({ luzPrincipalEncendida }) => {
+const HabitacionPrincipal = ({ luzPrincipal }) => {
   return (
     <div className="habitacion-principal">
-      <LuzDeTecho className={`luz-techo ${luzPrincipalEncendida ? 'encendida' : 'apagada'}`}/>
+      { luzPrincipal ? <LuzDeTechoEncendida /> : <LuzDeTechoApagada /> }
       <Lampara />
       <h2>Habitación Principal</h2>
     </div>

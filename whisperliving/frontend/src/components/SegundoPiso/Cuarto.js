@@ -1,13 +1,14 @@
 import React from 'react';
 import '../../public/css/Cuarto.css';
-import LuzDeTecho from '../Elementos/LuzDeTecho';
+import LuzDeTechoEncendida from '../Elementos/LuzDeTechoEncendida';
+import LuzDeTechoApagada from '../Elementos/LuzDeTechoApagada';
 import ReproductorMusica from '../Elementos/ReproductorMusica';
 
 
-function Cuarto() {
+const Cuarto = ({luzCuarto}) => {
   return (
     <div className="cuarto">
-      <LuzDeTecho encendida={false}/>
+      { luzCuarto ? <LuzDeTechoEncendida /> : <LuzDeTechoApagada /> }
       <ReproductorMusica />
       <h2>Cuarto</h2>
     </div>

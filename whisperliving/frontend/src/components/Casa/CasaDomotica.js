@@ -18,7 +18,11 @@ const CasaDomotica = () => {
 
   const [transcription, setTranscription] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
-  const [luzPrincipalEncendida, setLuzPrincipalEncendida] = useState(false);
+  const [luzPrincipal, setLuzPrincipal] = useState(true);
+  const [luzCocina, setLuzCocina] = useState(true);
+  const [luzSalon, setLuzSalon] = useState(true);
+  const [luzCuarto, setLuzCuarto] = useState(true);
+  const [luzSalita, setLuzSalita] = useState(true);
   const [temperaturaAire, setTemperaturaAire] = useState(null);
   const [temperaturaCalefaccion, setTemperaturaCalefaccion] = useState(null);
   const [temperaturaNevera, setTemperaturaNevera] = useState(null);
@@ -47,29 +51,47 @@ const CasaDomotica = () => {
       if (data.toLowerCase().includes('temperatura aire')) {
         const temperatura = obtenerTemperatura(data);
         setTemperaturaAire(temperatura);
-      } 
-      
-      // Determinar si el texto menciona la temperatura de la calefacción
-      else if (data.toLowerCase().includes('temperatura calefacción')) {
+      } else if (data.toLowerCase().includes('temperatura calefacción')) {
         const temperatura = obtenerTemperatura(data);
         setTemperaturaCalefaccion(temperatura);
-      }
-
-      else if (data.toLowerCase().includes('temperatura nevera')){
+      } else if (data.toLowerCase().includes('temperatura nevera')){
         const temperatura = obtenerTemperatura(data);
         setTemperaturaNevera(temperatura);
-      }
-
-      else if (data.toLowerCase().includes('temperatura congelador menos')){
+      } else if (data.toLowerCase().includes('temperatura congelador menos')){
         const temperatura = obtenerTemperatura(data);
         setTemperaturaCongelador(temperatura);
       }
 
-      // Determinar si el texto menciona encender o apagar la luz principal
+      // Determinar si el texto menciona encender o apagar luz
       if (data.toLowerCase().includes('encender luz principal')) {
-        setLuzPrincipalEncendida(true);
+        setLuzPrincipal(true);
       } else if (data.toLowerCase().includes('apagar luz principal')) {
-        setLuzPrincipalEncendida(false);
+        setLuzPrincipal(false);
+      }
+      if (data.toLowerCase().includes('encender luz cocina')) {
+        setLuzCocina(true);
+      } else if (data.toLowerCase().includes('apagar luz cocina')) {
+        setLuzCocina(false);
+      }
+      if (data.toLowerCase().includes('encender luz salón')) {
+        setLuzSalon(true);
+      } else if (data.toLowerCase().includes('apagar luz salón')) {
+        setLuzSalon(false);
+      }
+      if (data.toLowerCase().includes('encender luz salita')) {
+        setLuzSalita(true);
+      } else if (data.toLowerCase().includes('apagar luz salita')) {
+        setLuzSalita(false);
+      }
+      if (data.toLowerCase().includes('encender luz cuarto 1')) {
+        setLuzCuarto(true);
+      } else if (data.toLowerCase().includes('apagar luz cuarto 1')) {
+        setLuzCuarto(false);
+      }
+      if (data.toLowerCase().includes('encender luz cuarto 2')) {
+        setLuzCuarto(true);
+      } else if (data.toLowerCase().includes('apagar luz cuarto 2')) {
+        setLuzCuarto(false);
       }
 
       // Si se menciona "encender televisión"
@@ -112,12 +134,6 @@ const CasaDomotica = () => {
     }
   };
   
-  
-  
-  
-  
-
-
 
   return (
     <div className="casa-domotica">
@@ -125,12 +141,15 @@ const CasaDomotica = () => {
         setTemperaturaAire={setTemperaturaAire}
         temperaturaCalefaccion={temperaturaCalefaccion}
         setTemperaturaCalefaccion={setTemperaturaCalefaccion}
-        luzPrincipalEncendida={luzPrincipalEncendida}/>
+        luzCuarto={luzCuarto} setLuzCuarto={setLuzCuarto}
+        luzSalita={luzSalita} setLuzSalita={setLuzSalita}/>
       <PlantaBaja temperaturaNevera={temperaturaNevera} 
       setTemperaturaNevera={setTemperaturaNevera} 
       temperaturaCongelador={temperaturaCongelador} 
       setTemperaturaCongelador={setTemperaturaCongelador}
-      luzPrincipalEncendida={luzPrincipalEncendida} 
+      luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}
+      luzCocina={luzCocina} setLuzCocina={setLuzCocina}
+      luzSalon={luzSalon} setLuzSalon={setLuzSalon}
       tvEstado={tvEstado} setTvEstado={setTvEstado} tvCanal={tvCanal} setTvCanal={setTvCanal} />
       <div>
         {isRecording && <p>Grabando...</p>}

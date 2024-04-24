@@ -1,4 +1,4 @@
-.luz-de-techo {
+.luz-de-techo-encendido {
     background-color: yellow;
     border: 1px solid #ffcc00;
     width: 150px;
@@ -8,8 +8,4 @@
     padding: 1px;
     margin-bottom: 1px;
     margin: auto;
-}
-
-.luz-de-techo h5 {
-    text-align: center;
 }
