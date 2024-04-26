@@ -1,5 +1,5 @@
 /* Estilos para la lámpara en la habitación principal */
-.lampara {
+.lampara-apagada {
     background-color: white; 
     border: 0px solid black; 
     padding: 2px; 
@@ -11,13 +11,13 @@
     align-items: flex-end;
 }
 
-.lampara h5 {
+.lampara-apagada h5 {
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 5px;
 }
 
-.lampara .cable {
+.lampara-apagada .cable {
     width: 10px;
     height: 180px;
     background-color: #9fb3bd;
@@ -27,7 +27,7 @@
 }
 
 
-.lampara .foco {
+.lampara-apagada .foco {
     width: 70px;
     height: 60px;
     background-color: #8c9ea8;

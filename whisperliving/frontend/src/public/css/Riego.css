@@ -1,9 +1,9 @@
 .riego {
     position: absolute;
-    bottom: 50px;
+    bottom: 35px;
     left: 55%;
     transform: translateX(-55%);
     width: 300px;
-    height: 15px;
+    height: 25px;
     background-color: rgb(43, 189, 238);
 }

@@ -13,12 +13,19 @@ const PlantaBaja = ({
   tvEstado, setTvEstado, tvCanal, setTvCanal, 
   luzPrincipal, setLuzPrincipal,
   luzCocina, setLuzCocina,
-  luzSalon, setLuzSalon }) => {
+  luzSalon, setLuzSalon,
+  luzLampara, setLuzLampara,
+  riego, setRiego,
+  toldoPosicion, setToldoPosicion,
+  persianaPosicion, setPersianaPosicion 
+}) => {
   return (
     <div className="planta-baja">
       <div className="salon">
-        <Salon tvEstado={tvEstado} setTvEstado={setTvEstado} tvCanal={tvCanal} setTvCanal={setTvCanal} 
-        luzSalon={luzSalon} setLuzSalon={setLuzSalon}/>
+        <Salon tvEstado={tvEstado} setTvEstado={setTvEstado} 
+        tvCanal={tvCanal} setTvCanal={setTvCanal} 
+        luzSalon={luzSalon} setLuzSalon={setLuzSalon}
+        persianaPosicion={persianaPosicion} setPersianaPosicion={setPersianaPosicion}/>
       </div>
       <div className="cocina">
         <Cocina temperaturaNevera={temperaturaNevera}
@@ -28,10 +35,12 @@ const PlantaBaja = ({
         luzCocina={luzCocina} setLuzCocina={setLuzCocina}/>
       </div>
       <div className="habitacion-principal">
-        <HabitacionPrincipal luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}/>
+        <HabitacionPrincipal luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}
+        luzLampara={luzLampara} setLuzLampara={setLuzLampara}/>
       </div>
       <div className='jardin'>
-        <Jardin />
+        <Jardin riego={riego} setRiego={setRiego} 
+        toldoPosicion={toldoPosicion} setToldoPosicion={setToldoPosicion}/>
       </div>
     </div>
   );

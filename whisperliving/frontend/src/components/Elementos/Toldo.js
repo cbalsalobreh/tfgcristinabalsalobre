@@ -1,9 +1,9 @@
 import React from 'react';
 import '../../public/css/Toldo.css';
 
-const Toldo = () => {
+const Toldo = ({posicion}) => {
   return (
-    <div className="toldo">
+    <div className="toldo" style={{ width: `${posicion}%`}}>
     </div>
   );
 };

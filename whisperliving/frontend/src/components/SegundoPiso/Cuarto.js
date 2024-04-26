@@ -5,12 +5,13 @@ import LuzDeTechoApagada from '../Elementos/LuzDeTechoApagada';
 import ReproductorMusica from '../Elementos/ReproductorMusica';
 
 
-const Cuarto = ({luzCuarto}) => {
+const Cuarto = ({numero, luzCuarto, listaReproduccion, setListaReproduccion}) => {
   return (
-    <div className="cuarto">
+    <div className={`cuarto cuarto${numero}`}>
       { luzCuarto ? <LuzDeTechoEncendida /> : <LuzDeTechoApagada /> }
-      <ReproductorMusica />
-      <h2>Cuarto</h2>
+      <ReproductorMusica nombreListaReproduccion={listaReproduccion}
+      setNombreListaReproduccion={setListaReproduccion}/>
+      <h2>Cuarto {numero}</h2>
     </div>
   );
 }

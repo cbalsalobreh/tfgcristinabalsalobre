@@ -21,14 +21,21 @@ const CasaDomotica = () => {
   const [luzPrincipal, setLuzPrincipal] = useState(true);
   const [luzCocina, setLuzCocina] = useState(true);
   const [luzSalon, setLuzSalon] = useState(true);
-  const [luzCuarto, setLuzCuarto] = useState(true);
+  const [luzCuarto1, setLuzCuarto1] = useState(true);
+  const [luzCuarto2, setLuzCuarto2] = useState(true);
   const [luzSalita, setLuzSalita] = useState(true);
+  const [luzLampara, setLuzLampara] = useState(true);
   const [temperaturaAire, setTemperaturaAire] = useState(null);
   const [temperaturaCalefaccion, setTemperaturaCalefaccion] = useState(null);
   const [temperaturaNevera, setTemperaturaNevera] = useState(null);
   const [temperaturaCongelador, setTemperaturaCongelador] = useState(null);
   const [tvEstado, setTvEstado] = useState('Apagada');
   const [tvCanal, setTvCanal] = useState('');
+  const [listaReproduccionCuarto1, setListaReproduccionCuarto1] = useState('');
+  const [listaReproduccionCuarto2, setListaReproduccionCuarto2] = useState('');
+  const [persianaPosicion, setPersianaPosicion] = useState(62);
+  const [riego, setRiego] = useState(false);
+  const [toldoPosicion, setToldoPosicion] = useState(100);
 
 
   useEffect(() => {
@@ -47,7 +54,7 @@ const CasaDomotica = () => {
     socket.on('transcription', (data) => {
       setTranscription(data);
       
-      // Determinar si el texto menciona la temperatura del aire
+      // Control de temperaturas
       if (data.toLowerCase().includes('temperatura aire')) {
         const temperatura = obtenerTemperatura(data);
         setTemperaturaAire(temperatura);
@@ -62,7 +69,7 @@ const CasaDomotica = () => {
         setTemperaturaCongelador(temperatura);
       }
 
-      // Determinar si el texto menciona encender o apagar luz
+      // Encender o apagar luces
       if (data.toLowerCase().includes('encender luz principal')) {
         setLuzPrincipal(true);
       } else if (data.toLowerCase().includes('apagar luz principal')) {
@@ -83,15 +90,21 @@ const CasaDomotica = () => {
       } else if (data.toLowerCase().includes('apagar luz salita')) {
         setLuzSalita(false);
       }
-      if (data.toLowerCase().includes('encender luz cuarto 1')) {
-        setLuzCuarto(true);
-      } else if (data.toLowerCase().includes('apagar luz cuarto 1')) {
-        setLuzCuarto(false);
+      if (data.toLowerCase().includes('encender luz cuarto uno')) {
+        setLuzCuarto1(true);
+      } else if (data.toLowerCase().includes('apagar luz cuarto uno')) {
+        setLuzCuarto1(false);
       }
-      if (data.toLowerCase().includes('encender luz cuarto 2')) {
-        setLuzCuarto(true);
-      } else if (data.toLowerCase().includes('apagar luz cuarto 2')) {
-        setLuzCuarto(false);
+      if (data.toLowerCase().includes('encender luz cuarto dos')) {
+        setLuzCuarto2(true);
+      } else if (data.toLowerCase().includes('apagar luz cuarto dos')) {
+        setLuzCuarto2(false);
+      }
+
+      if (data.toLowerCase().includes('encender lampara')) {
+        setLuzLampara(true);
+      } else if (data.toLowerCase().includes('apagar lampara')) {
+        setLuzLampara(false);
       }
 
       // Si se menciona "encender televisión"
@@ -99,7 +112,7 @@ const CasaDomotica = () => {
         let estado = 'Encendida';
         let canal = '';
 
-        // Obtener el canal si se menciona después de "encender televisión"
+        // Obtener el canal si se menciona después de "encender televisión canal"
         const coincidencias = data.toLowerCase().match(/encender televisión canal (\d+)/);
         if (coincidencias && coincidencias.length === 2) {
           canal = parseInt(coincidencias[1]);
@@ -110,13 +123,80 @@ const CasaDomotica = () => {
         setTvCanal(canal);
       }
 
-      // Si se menciona "apagar televisión"
       if (data.toLowerCase().includes('apagar televisión')) {
         // Actualizar el estado de la televisión como apagada y sin canal
         setTvEstado('Apagada');
         setTvCanal('');
       }
+
+    // Detectar el comando para reproducir lista en el cuarto 1
+    if (data.toLowerCase().includes('reproducir lista') && data.toLowerCase().includes('en cuarto uno')) {
+      const lista = obtenerLista(data);
+      if (lista) {
+        setListaReproduccionCuarto1(lista);
+      }
+    }
+    
+    // Detectar el comando para reproducir lista en el cuarto 2
+    if (data.toLowerCase().includes('reproducir lista') && data.toLowerCase().includes('en cuarto dos')) {
+      const lista = obtenerLista(data);
+      if (lista) {
+        setListaReproduccionCuarto2(lista);
+      }
+    }
+    
+    // Activar/desactivar riego
+    if (data.toLowerCase().includes('activar riego')){
+      setRiego(true);
+    } 
+      
+    if (data.toLowerCase().includes('desactivar riego')){
+      setRiego(false);
+    }
+
+    if (data.toLowerCase().includes('recoger toldo')) {
+      setToldoPosicion(0);
+    }
+
+    if (data.toLowerCase().includes('sacar un poco el toldo')) {
+      setToldoPosicion(25);
+    }
+
+    if (data.toLowerCase().includes('sacar toldo a la mitad')) {
+      setToldoPosicion(50);
+    }
+
+    if (data.toLowerCase().includes('sacar bastante el toldo')) {
+      setToldoPosicion(75);
+    }
+
+    if (data.toLowerCase().includes('sacar toldo')) {
+      setToldoPosicion(100);
+    }
+
+    if (data.toLowerCase().includes('subir persiana')) {
+      setPersianaPosicion(4);
+    }
+
+    if (data.toLowerCase().includes('bajar un poco la persiana')) {
+      setPersianaPosicion(18);
+    }
+
+    if (data.toLowerCase().includes('bajar persiana a la mitad')) {
+      setPersianaPosicion(31);
+    }
+
+    if (data.toLowerCase().includes('bajar bastante la persiana')) {
+      setPersianaPosicion(45);
+    }
+
+    if (data.toLowerCase().includes('bajar persiana')) {
+      setPersianaPosicion(62);
+    }
+
     });
+
+
     return () => {
       socket.off('transcription');
     };
@@ -133,6 +213,16 @@ const CasaDomotica = () => {
       return null;
     }
   };
+
+  // Función para obtener el nombre de la lista de reproducción del comando de voz
+  const obtenerLista = (texto) => {
+    const inicio = texto.toLowerCase().indexOf('reproducir lista') + 'reproducir lista'.length;
+    const fin = texto.toLowerCase().indexOf('en cuarto');
+    if (inicio !== -1 && fin !== -1) {
+      return texto.slice(inicio, fin).trim();
+    }
+    return null;
+  };
   
 
   return (
@@ -141,16 +231,26 @@ const CasaDomotica = () => {
         setTemperaturaAire={setTemperaturaAire}
         temperaturaCalefaccion={temperaturaCalefaccion}
         setTemperaturaCalefaccion={setTemperaturaCalefaccion}
-        luzCuarto={luzCuarto} setLuzCuarto={setLuzCuarto}
+        luzCuarto={luzCuarto1} setLuzCuarto={setLuzCuarto1} 
+        listaReproduccionCuarto1={listaReproduccionCuarto1}
+        setListaReproduccionCuarto1={setListaReproduccionCuarto1}
+        luzCuarto2={luzCuarto2} setLuzCuarto2={setLuzCuarto2}
+        listaReproduccionCuarto2={listaReproduccionCuarto2}
+        setListaReproduccionCuarto2={setListaReproduccionCuarto2}
         luzSalita={luzSalita} setLuzSalita={setLuzSalita}/>
       <PlantaBaja temperaturaNevera={temperaturaNevera} 
       setTemperaturaNevera={setTemperaturaNevera} 
       temperaturaCongelador={temperaturaCongelador} 
       setTemperaturaCongelador={setTemperaturaCongelador}
       luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}
+      luzLampara={luzLampara} setLuzLampara={setLuzLampara}
       luzCocina={luzCocina} setLuzCocina={setLuzCocina}
       luzSalon={luzSalon} setLuzSalon={setLuzSalon}
-      tvEstado={tvEstado} setTvEstado={setTvEstado} tvCanal={tvCanal} setTvCanal={setTvCanal} />
+      persianaPosicion={persianaPosicion} setPersianaPosicion={setPersianaPosicion}
+      tvEstado={tvEstado} setTvEstado={setTvEstado} tvCanal={tvCanal} setTvCanal={setTvCanal} 
+      riego={riego} setRiego={setRiego}
+      toldoPosicion={toldoPosicion} setToldoPosicion={setToldoPosicion}
+      />
       <div>
         {isRecording && <p>Grabando...</p>}
         {!isRecording && <p>Listo para grabar</p>}

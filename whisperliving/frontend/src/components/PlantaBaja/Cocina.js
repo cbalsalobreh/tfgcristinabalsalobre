@@ -8,9 +8,9 @@ function Cocina({ temperaturaNevera, temperaturaCongelador, luzCocina }) {
   return (
     <div className="cocina">
       { luzCocina ? <LuzDeTechoEncendida /> : <LuzDeTechoApagada /> }
+      <h2>Cocina</h2>
       <ControlTemperatura titulo="Nevera" temperatura={temperaturaNevera}/>
       <ControlTemperatura titulo="Congelador" temperatura={temperaturaCongelador}/>
-      <h2>Cocina</h2>
     </div>
   );
 }

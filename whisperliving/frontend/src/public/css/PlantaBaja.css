@@ -7,11 +7,11 @@
   
   .habitacion-principal,
   .cocina,
-  .salon,
-  .jardin {
+  .salon {
     position: absolute;
     height: 400px;
     width: 300px;
+
   }
   
   .habitacion-principal {
@@ -29,6 +29,9 @@
   }
 
   .jardin {
+    position: absolute;
+    height: 400px;
+    width: 300px;
     left: 450px;
   }
 

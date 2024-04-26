@@ -4,7 +4,6 @@ import '../../public/css/Riego.css';
 const Riego = () => {
   return (
     <div className="riego"></div>
-
   );
 };
 

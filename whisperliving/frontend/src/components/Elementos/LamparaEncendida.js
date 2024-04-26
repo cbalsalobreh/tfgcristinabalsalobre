@@ -1,9 +1,9 @@
 import React from 'react';
-import '../../public/css/Lampara.css'
+import '../../public/css/LamparaEncendida.css'
 
-const Lampara = () => {
+const LamparaEncendida = () => {
   return (
-    <div className="lampara">
+    <div className="lampara-encendida">
       <h5>Lámpara</h5>
       <div className="cable"></div>
       <div className="foco"></div>
@@ -11,4 +11,4 @@ const Lampara = () => {
   );
 };
 
-export default Lampara;
+export default LamparaEncendida;

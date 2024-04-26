@@ -2,7 +2,7 @@
     position: left;
     width: 900px;
     height: 400px;
-    margin: 0px auto;
+    width: 300px;
   }
   
   .cuarto1,
@@ -10,25 +10,21 @@
   .salita {
     position: absolute;
     height: 400px;
+    width: 300px;
+  }
+
+  .cuarto1 {
+    position:left;
     border: 1px solid #000;
   }
   
-  .cuarto1,
   .cuarto2 {
-    width: 300px;
-  }
-  
-  .cuarto1 {
-    left: 0px;
-  }
-  
-  .cuarto2 {
-    left: 300px;
+    left:150px;
   }
   
   .salita {
-    width: 300px;
     left: 300px;
+    border: 1px solid #000;
   }
   
 

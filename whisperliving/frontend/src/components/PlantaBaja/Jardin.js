@@ -3,18 +3,25 @@ import Toldo from '../Elementos/Toldo';
 import Riego from '../Elementos/Riego';
 import '../../public/css/Jardin.css'
 
-function Jardin() {
+const Jardin = ({riego, toldoPosicion}) => {
   return (
     <div className="jardin">
-        <Toldo /> 
+        <Toldo posicion={toldoPosicion}/> 
         <div className="suelo">
             <div className="florecita"></div>
+            <div className="florecita2"></div>
             <div className="florecita"></div>
+            <div className="florecita2"></div>
             <div className="florecita"></div>
+            <div className="florecita2"></div>
             <div className="florecita"></div>
+            <div className="florecita2"></div>
             <div className="florecita"></div>
+            <div className="florecita2"></div>
+            <div className="florecita"></div>
+            <div className="florecita2"></div>
         </div>
-        <Riego />  
+        {riego && <Riego />}
     </div>
   );
 }

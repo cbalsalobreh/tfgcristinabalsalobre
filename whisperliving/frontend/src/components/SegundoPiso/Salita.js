@@ -8,9 +8,9 @@ function Salita({ temperaturaAire, temperaturaCalefaccion, luzSalita }) {
   return (
     <div className="salita">
       { luzSalita ? <LuzDeTechoEncendida /> : <LuzDeTechoApagada /> }
+      <h2>Salita</h2>
       <ControlTemperatura titulo="AC" temperatura={temperaturaAire} />
       <ControlTemperatura titulo="Calefacción" temperatura={temperaturaCalefaccion} />
-      <h2>Salita</h2>
     </div>
   );
 }

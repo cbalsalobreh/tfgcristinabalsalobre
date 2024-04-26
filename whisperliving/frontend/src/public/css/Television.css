@@ -1,14 +1,19 @@
 .television {
-    background-color: lightskyblue; 
+    background-color: rgb(39, 48, 48); 
     border: 1px solid black; 
     padding: 1px;
     margin-bottom: 1px;
     width: 180px;
     height: 150px;
-    border-radius: 15%;
+    border-radius: 12%;
     margin-left: auto;
+    margin-right: 4px;
   }
   .television h5 {
     text-align: center;
+    color: white;
   }
   
+  .television p {
+    color: white;
+  }
