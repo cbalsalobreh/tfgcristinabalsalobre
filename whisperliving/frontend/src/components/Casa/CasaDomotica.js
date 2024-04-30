@@ -5,6 +5,7 @@ import '../../public/css/CasaDomotica.css';
 import socketIOClient from 'socket.io-client';
 import { useAudioRecorder } from 'react-audio-voice-recorder';
 
+
 const ENDPOINT = 'http://localhost:5001';
 const socket = socketIOClient(ENDPOINT);
 

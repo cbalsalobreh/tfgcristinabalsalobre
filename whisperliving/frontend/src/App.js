@@ -9,6 +9,7 @@ function App() {
   
   return (
       <div className="App">
+        <img src="/CabeceraPWTFG.png" alt='Cabecera de Whisper Living' style={{ height: '100px' }}/>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LoginForm />} />

@@ -1,6 +1,6 @@
 /* Estilos para la lámpara en la habitación principal */
 .lampara-apagada {
-    background-color: white; 
+    background-color: #f5f5f5; 
     border: 0px solid black; 
     padding: 2px; 
     width: 120px;
