@@ -19,25 +19,26 @@ const CasaDomotica = () => {
 
   const [transcription, setTranscription] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
-  const [luzPrincipal, setLuzPrincipal] = useState(true);
-  const [luzCocina, setLuzCocina] = useState(true);
-  const [luzSalon, setLuzSalon] = useState(true);
-  const [luzCuarto1, setLuzCuarto1] = useState(true);
-  const [luzCuarto2, setLuzCuarto2] = useState(true);
-  const [luzSalita, setLuzSalita] = useState(true);
-  const [luzLampara, setLuzLampara] = useState(true);
-  const [temperaturaAire, setTemperaturaAire] = useState(null);
-  const [temperaturaCalefaccion, setTemperaturaCalefaccion] = useState(null);
-  const [temperaturaNevera, setTemperaturaNevera] = useState(null);
-  const [temperaturaCongelador, setTemperaturaCongelador] = useState(null);
-  const [tvEstado, setTvEstado] = useState('Apagada');
-  const [tvCanal, setTvCanal] = useState('');
-  const [listaReproduccionCuarto1, setListaReproduccionCuarto1] = useState('');
-  const [listaReproduccionCuarto2, setListaReproduccionCuarto2] = useState('');
-  const [persianaPosicion, setPersianaPosicion] = useState(62);
-  const [riego, setRiego] = useState(false);
-  const [toldoPosicion, setToldoPosicion] = useState(100);
-
+  const [deviceStates, setDeviceStates] = useState({
+    luzPrincipal: true,
+    luzCocina: true,
+    luzSalon: true,
+    luzCuarto1: true,
+    luzCuarto2: true,
+    luzSalita: true,
+    luzLampara: true,
+    temperaturaAire: null,
+    temperaturaCalefaccion: null,
+    temperaturaNevera: null,
+    temperaturaCongelador: null,
+    tvEstado: 'Apagada',
+    tvCanal: '',
+    listaReproduccionCuarto1: '',
+    listaReproduccionCuarto2: '',
+    persianaPosicion: 62,
+    riego: false,
+    toldoPosicion: 100
+  });
 
   useEffect(() => {
     if (recordingBlob) {
@@ -52,206 +53,287 @@ const CasaDomotica = () => {
   }, [recordingBlob]);
 
   useEffect(() => {
-    socket.on('transcription', (data) => {
+    const handleTranscription = (data) => {
       setTranscription(data);
-      
-      // Control de temperaturas
+      updateDeviceStates(data);
+    };
+
+    const updateDeviceStates = (data) => {
+      updateTemperatures(data);
+      updateLightStates(data);
+      updateTelevisionState(data);
+      updateMusicLists(data);
+      updateRiego(data);
+      updateToldoPosicion(data);
+      updatePersianaPosicion(data);
+    };
+  
+    const updateTemperatures = (data) => {
       if (data.toLowerCase().includes('temperatura aire')) {
         const temperatura = obtenerTemperatura(data);
-        setTemperaturaAire(temperatura);
+        setDeviceStates(prevState => ({
+          ...prevState,
+          temperaturaAire: temperatura
+        }));
       } else if (data.toLowerCase().includes('temperatura calefacción')) {
         const temperatura = obtenerTemperatura(data);
-        setTemperaturaCalefaccion(temperatura);
-      } else if (data.toLowerCase().includes('temperatura nevera')){
+        setDeviceStates(prevState => ({
+          ...prevState,
+          temperaturaCalefaccion: temperatura
+        }));
+      } else if (data.toLowerCase().includes('temperatura nevera')) {
         const temperatura = obtenerTemperatura(data);
-        setTemperaturaNevera(temperatura);
-      } else if (data.toLowerCase().includes('temperatura congelador menos')){
+        setDeviceStates(prevState => ({
+          ...prevState,
+          temperaturaNevera: temperatura
+        }));
+      } else if (data.toLowerCase().includes('temperatura congelador menos')) {
         const temperatura = obtenerTemperatura(data);
-        setTemperaturaCongelador(temperatura);
+        setDeviceStates(prevState => ({
+          ...prevState,
+          temperaturaCongelador: temperatura
+        }));
       }
-
-      // Encender o apagar luces
-      if (data.toLowerCase().includes('encender luz principal')) {
-        setLuzPrincipal(true);
-      } else if (data.toLowerCase().includes('apagar luz principal')) {
-        setLuzPrincipal(false);
-      }
-      if (data.toLowerCase().includes('encender luz cocina')) {
-        setLuzCocina(true);
-      } else if (data.toLowerCase().includes('apagar luz cocina')) {
-        setLuzCocina(false);
-      }
-      if (data.toLowerCase().includes('encender luz salón')) {
-        setLuzSalon(true);
-      } else if (data.toLowerCase().includes('apagar luz salón')) {
-        setLuzSalon(false);
-      }
-      if (data.toLowerCase().includes('encender luz salita')) {
-        setLuzSalita(true);
-      } else if (data.toLowerCase().includes('apagar luz salita')) {
-        setLuzSalita(false);
-      }
-      if (data.toLowerCase().includes('encender luz cuarto uno')) {
-        setLuzCuarto1(true);
-      } else if (data.toLowerCase().includes('apagar luz cuarto uno')) {
-        setLuzCuarto1(false);
-      }
-      if (data.toLowerCase().includes('encender luz cuarto dos')) {
-        setLuzCuarto2(true);
-      } else if (data.toLowerCase().includes('apagar luz cuarto dos')) {
-        setLuzCuarto2(false);
-      }
-
-      if (data.toLowerCase().includes('encender lampara')) {
-        setLuzLampara(true);
-      } else if (data.toLowerCase().includes('apagar lampara')) {
-        setLuzLampara(false);
-      }
-
-      // Si se menciona "encender televisión"
+    };
+    
+    const updateLightStates = (data) => {
+      const encenderKeywords = ['encender', 'enciende', 'activar', 'activa'];
+      const apagarKeywords = ['apagar', 'apaga', 'desactivar', 'desactiva'];
+    
+      const currentLightStates = { ...deviceStates };
+    
+      encenderKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          if (data.toLowerCase().includes('luz principal')) {
+            currentLightStates.luzPrincipal = true;
+          } else if (data.toLowerCase().includes('luz cocina')) {
+            currentLightStates.luzCocina = true;
+          } else if (data.toLowerCase().includes('luz salón')) {
+            currentLightStates.luzSalon = true;
+          } else if (data.toLowerCase().includes('luz cuarto uno')){
+            currentLightStates.luzCuarto1 = true;
+          } else if (data.toLowerCase().includes('luz cuarto dos')){
+            currentLightStates.luzCuarto2 = true;
+          } else if (data.toLowerCase().includes('luz salita')){
+            currentLightStates.luzSalita = true;
+          } else if (data.toLowerCase().includes('lámpara')){
+            currentLightStates.luzLampara = true;
+          }
+        }
+      });
+    
+      apagarKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          if (data.toLowerCase().includes('luz principal')) {
+            currentLightStates.luzPrincipal = false;
+          } else if (data.toLowerCase().includes('luz cocina')) {
+            currentLightStates.luzCocina = false;
+          } else if (data.toLowerCase().includes('luz salón')) {
+            currentLightStates.luzSalon = false;
+          } else if (data.toLowerCase().includes('luz cuarto uno')){
+            currentLightStates.luzCuarto1 = false;
+          } else if (data.toLowerCase().includes('luz cuarto dos')){
+            currentLightStates.luzCuarto2 = false;
+          } else if (data.toLowerCase().includes('luz salita')){
+            currentLightStates.luzSalita = false;
+          } else if (data.toLowerCase().includes('lámpara')){
+            currentLightStates.luzLampara = false;
+          }
+        }
+      });
+    
+      setDeviceStates(prevState => ({
+        ...prevState,
+        luzPrincipal: currentLightStates.luzPrincipal,
+        luzCocina: currentLightStates.luzCocina,
+        luzSalon: currentLightStates.luzSalon,
+        luzCuarto1: currentLightStates.luzCuarto1,
+        luzCuarto2: currentLightStates.luzCuarto2,
+        luzSalita: currentLightStates.luzSalita,
+        luzLampara: currentLightStates.luzLampara
+      }));
+    };
+    
+    
+    const updateTelevisionState = (data) => {
       if (data.toLowerCase().includes('encender televisión')) {
         let estado = 'Encendida';
         let canal = '';
-
+    
         // Obtener el canal si se menciona después de "encender televisión canal"
         const coincidencias = data.toLowerCase().match(/encender televisión canal (\d+)/);
         if (coincidencias && coincidencias.length === 2) {
           canal = parseInt(coincidencias[1]);
         }
-
+    
         // Actualizar el estado de la televisión y el canal
-        setTvEstado(estado);
-        setTvCanal(canal);
-      }
-
-      if (data.toLowerCase().includes('apagar televisión')) {
+        setDeviceStates(prevState => ({
+          ...prevState,
+          tvEstado: estado,
+          tvCanal: canal.toString()
+        }));
+      } else if (data.toLowerCase().includes('apagar televisión')) {
         // Actualizar el estado de la televisión como apagada y sin canal
-        setTvEstado('Apagada');
-        setTvCanal('');
+        setDeviceStates(prevState => ({
+          ...prevState,
+          tvEstado: 'Apagada',
+          tvCanal: ''
+        }));
       }
-
-    // Detectar el comando para reproducir lista en el cuarto 1
-    if (data.toLowerCase().includes('reproducir lista') && data.toLowerCase().includes('en cuarto uno')) {
-      const lista = obtenerLista(data);
-      if (lista) {
-        setListaReproduccionCuarto1(lista);
-      }
-    }
+    };
     
-    // Detectar el comando para reproducir lista en el cuarto 2
-    if (data.toLowerCase().includes('reproducir lista') && data.toLowerCase().includes('en cuarto dos')) {
-      const lista = obtenerLista(data);
-      if (lista) {
-        setListaReproduccionCuarto2(lista);
-      }
-    }
+    const updateMusicLists = (data) => {
+      // Palabras clave para reproducir listas de reproducción en diferentes habitaciones
+      const cuarto1Keywords = ['en cuarto uno', 'en el cuarto uno', 'en la habitación uno', 'en el primer cuarto'];
+      const cuarto2Keywords = ['en cuarto dos', 'en el cuarto dos', 'en la habitación dos', 'en el segundo cuarto'];
     
-    // Activar/desactivar riego
-    if (data.toLowerCase().includes('activar riego')){
-      setRiego(true);
-    } 
-      
-    if (data.toLowerCase().includes('desactivar riego')){
-      setRiego(false);
-    }
+      const currentDeviceStates = { ...deviceStates };
+    
+      // Actualizar la lista de reproducción del cuarto 1
+      cuarto1Keywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          const listaReproduccion = obtenerLista(data);
+          if (listaReproduccion) {
+            currentDeviceStates.listaReproduccionCuarto1 = listaReproduccion;
+          }
+        }
+      });
+    
+      // Actualizar la lista de reproducción del cuarto 2
+      cuarto2Keywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          const listaReproduccion = obtenerLista(data);
+          if (listaReproduccion) {
+            currentDeviceStates.listaReproduccionCuarto2 = listaReproduccion;
+          }
+        }
+      });
+    
+      // Actualizar el estado del dispositivo con las nuevas listas de reproducción
+      setDeviceStates(prevState => ({
+        ...prevState,
+        listaReproduccionCuarto1: currentDeviceStates.listaReproduccionCuarto1,
+        listaReproduccionCuarto2: currentDeviceStates.listaReproduccionCuarto2,
+      }));
+    };  
+    
+    const updateRiego = (data) => {
+      const currentDeviceStates = { ...deviceStates };
+    
+      // Palabras clave para activar o desactivar el riego
+      const activarRiegoKeywords = ['activar riego', 'encender riego', 'activar el riego', 'encender el riego'];
+      const desactivarRiegoKeywords = ['desactivar riego', 'apagar riego', 'desactivar el riego', 'apagar el riego'];
+    
+      // Verificar si se menciona activar el riego
+      activarRiegoKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.riego = true;
+        }
+      });
+    
+      // Verificar si se menciona desactivar el riego
+      desactivarRiegoKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.riego = false;
+        }
+      });
+    
+      // Actualizar el estado del dispositivo con el nuevo estado del riego
+      setDeviceStates(prevState => ({
+        ...prevState,
+        riego: currentDeviceStates.riego,
+      }));
+    };
+    
+    
+    const updateToldoPosicion = (data) => {
+      const currentDeviceStates = { ...deviceStates };
+      // Palabras clave para actualizar la posición del toldo
+      const posicionToldoKeywords = {
+        'recoger toldo': 0,
+        'sacar un poco el toldo': 25,
+        'sacar toldo a la mitad': 50,
+        'sacar bastante el toldo': 75,
+        'sacar toldo': 100
+      };
+    
+      // Verificar si alguna palabra clave coincide con el comando de voz
+      Object.entries(posicionToldoKeywords).forEach(([keyword, posicion]) => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.toldoPosicion = posicion;
+        }
+      });
+    
+      // Actualizar el estado del dispositivo con la nueva posición del toldo
+      setDeviceStates(prevState => ({
+        ...prevState,
+        toldoPosicion: currentDeviceStates.toldoPosicion,
+      }));
+    };
+    
+    
+    const updatePersianaPosicion = (data) => {
+      const currentDeviceStates = { ...deviceStates };
+    
+      // Palabras clave para actualizar la posición de la persiana
+      const posicionPersianaKeywords = {
+        'subir persiana': 4,
+        'bajar un poco la persiana': 18,
+        'bajar persiana a la mitad': 31,
+        'bajar bastante la persiana': 45,
+        'bajar persiana': 62
+      };
+    
+      // Verificar si alguna palabra clave coincide con el comando de voz
+      Object.entries(posicionPersianaKeywords).forEach(([keyword, posicion]) => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.persianaPosicion = posicion;
+        }
+      });
+    
+      // Actualizar el estado del dispositivo con la nueva posición de la persiana
+      setDeviceStates(prevState => ({
+        ...prevState,
+        persianaPosicion: currentDeviceStates.persianaPosicion,
+      }));
+    };
+    
+    
+  
+    // Función para obtener la temperatura de un texto
+    const obtenerTemperatura = (texto) => {
+      const patron = /(?:menos\s)?(\d+)\s*(?:grados|ºC)/;
+      const coincidencias = texto.match(patron);
+      if (coincidencias && coincidencias.length === 2) {
+        const temperatura = parseInt(coincidencias[1]);
+        return isNaN(temperatura) ? null : (texto.includes("menos") ? `-${temperatura}` : temperatura);
+      } else {
+        return null;
+      }
+    };
+  
+    // Función para obtener el nombre de la lista de reproducción del comando de voz
+    const obtenerLista = (texto) => {
+      const inicio = texto.toLowerCase().indexOf('reproducir lista') + 'reproducir lista'.length;
+      const fin = texto.toLowerCase().indexOf('en cuarto');
+      if (inicio !== -1 && fin !== -1) {
+        return texto.slice(inicio, fin).trim();
+      }
+      return null;
+    };
 
-    if (data.toLowerCase().includes('recoger toldo')) {
-      setToldoPosicion(0);
-    }
-
-    if (data.toLowerCase().includes('sacar un poco el toldo')) {
-      setToldoPosicion(25);
-    }
-
-    if (data.toLowerCase().includes('sacar toldo a la mitad')) {
-      setToldoPosicion(50);
-    }
-
-    if (data.toLowerCase().includes('sacar bastante el toldo')) {
-      setToldoPosicion(75);
-    }
-
-    if (data.toLowerCase().includes('sacar toldo')) {
-      setToldoPosicion(100);
-    }
-
-    if (data.toLowerCase().includes('subir persiana')) {
-      setPersianaPosicion(4);
-    }
-
-    if (data.toLowerCase().includes('bajar un poco la persiana')) {
-      setPersianaPosicion(18);
-    }
-
-    if (data.toLowerCase().includes('bajar persiana a la mitad')) {
-      setPersianaPosicion(31);
-    }
-
-    if (data.toLowerCase().includes('bajar bastante la persiana')) {
-      setPersianaPosicion(45);
-    }
-
-    if (data.toLowerCase().includes('bajar persiana')) {
-      setPersianaPosicion(62);
-    }
-
-    });
-
+    socket.on('transcription', handleTranscription);
 
     return () => {
-      socket.off('transcription');
+      socket.off('transcription', handleTranscription);
     };
-  }, []);
-
-  // Función para obtener la temperatura de un texto
-  const obtenerTemperatura = (texto) => {
-    const patron = /(?:menos\s)?(\d+)\s*(?:grados|ºC)/;
-    const coincidencias = texto.match(patron);
-    if (coincidencias && coincidencias.length === 2) {
-      const temperatura = parseInt(coincidencias[1]);
-      return isNaN(temperatura) ? null : (texto.includes("menos") ? `-${temperatura}` : temperatura);
-    } else {
-      return null;
-    }
-  };
-
-  // Función para obtener el nombre de la lista de reproducción del comando de voz
-  const obtenerLista = (texto) => {
-    const inicio = texto.toLowerCase().indexOf('reproducir lista') + 'reproducir lista'.length;
-    const fin = texto.toLowerCase().indexOf('en cuarto');
-    if (inicio !== -1 && fin !== -1) {
-      return texto.slice(inicio, fin).trim();
-    }
-    return null;
-  };
+  }, [deviceStates]);
   
 
   return (
     <div className="casa-domotica">
-      <SegundoPiso temperaturaAire={temperaturaAire}
-        setTemperaturaAire={setTemperaturaAire}
-        temperaturaCalefaccion={temperaturaCalefaccion}
-        setTemperaturaCalefaccion={setTemperaturaCalefaccion}
-        luzCuarto={luzCuarto1} setLuzCuarto={setLuzCuarto1} 
-        listaReproduccionCuarto1={listaReproduccionCuarto1}
-        setListaReproduccionCuarto1={setListaReproduccionCuarto1}
-        luzCuarto2={luzCuarto2} setLuzCuarto2={setLuzCuarto2}
-        listaReproduccionCuarto2={listaReproduccionCuarto2}
-        setListaReproduccionCuarto2={setListaReproduccionCuarto2}
-        luzSalita={luzSalita} setLuzSalita={setLuzSalita}/>
-      <PlantaBaja temperaturaNevera={temperaturaNevera} 
-      setTemperaturaNevera={setTemperaturaNevera} 
-      temperaturaCongelador={temperaturaCongelador} 
-      setTemperaturaCongelador={setTemperaturaCongelador}
-      luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}
-      luzLampara={luzLampara} setLuzLampara={setLuzLampara}
-      luzCocina={luzCocina} setLuzCocina={setLuzCocina}
-      luzSalon={luzSalon} setLuzSalon={setLuzSalon}
-      persianaPosicion={persianaPosicion} setPersianaPosicion={setPersianaPosicion}
-      tvEstado={tvEstado} setTvEstado={setTvEstado} tvCanal={tvCanal} setTvCanal={setTvCanal} 
-      riego={riego} setRiego={setRiego}
-      toldoPosicion={toldoPosicion} setToldoPosicion={setToldoPosicion}
-      />
+      <SegundoPiso {...deviceStates} setDeviceStates={setDeviceStates} />
+      <PlantaBaja {...deviceStates} setDeviceStates={setDeviceStates} />
       <div>
         {isRecording && <p>Grabando...</p>}
         {!isRecording && <p>Listo para grabar</p>}

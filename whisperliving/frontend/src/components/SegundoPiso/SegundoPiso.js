@@ -6,7 +6,7 @@ import '../../public/css/SegundoPiso.css';
 const SegundoPiso = ({
   temperaturaAire, setTemperaturaAire,
   temperaturaCalefaccion, setTemperaturaCalefaccion,
-  luzCuarto,listaReproduccionCuarto1,
+  luzCuarto1,listaReproduccionCuarto1,
   luzCuarto2,listaReproduccionCuarto2,
   luzSalita, setLuzSalita
 }) => {
@@ -14,7 +14,7 @@ const SegundoPiso = ({
     <div className="segundo-piso">
       <div className="cuarto1">
         <Cuarto numero={1}
-        luzCuarto={luzCuarto}
+        luzCuarto={luzCuarto1}
         listaReproduccion={listaReproduccionCuarto1}/>
       </div>
       <div className="cuarto2">
