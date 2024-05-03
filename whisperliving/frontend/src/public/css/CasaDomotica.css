@@ -26,3 +26,14 @@
     margin-top: 10px;
   }
   
+  .logout-button-container {
+    align-self: flex-end;
+    position: absolute;
+    margin-left: 933px;
+    margin-top: -65px;
+  }
+
+  .logout-button-container button {
+    background-color: #f5f5f5;
+    color: #333;
+  }

@@ -4,6 +4,7 @@ import SegundoPiso from '../SegundoPiso/SegundoPiso';
 import '../../public/css/CasaDomotica.css';
 import socketIOClient from 'socket.io-client';
 import { useAudioRecorder } from 'react-audio-voice-recorder';
+import { useNavigate } from 'react-router-dom';
 
 
 const ENDPOINT = 'http://localhost:5001';
@@ -19,6 +20,7 @@ const CasaDomotica = () => {
 
   const [transcription, setTranscription] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
+  const navigate = useNavigate();
   const [deviceStates, setDeviceStates] = useState({
     luzPrincipal: true,
     luzCocina: true,
@@ -39,6 +41,13 @@ const CasaDomotica = () => {
     riego: false,
     toldoPosicion: 100
   });
+
+  const handleLogout = () => {
+    // Eliminar datos de inicio de sesión del almacenamiento local
+    localStorage.removeItem('token');
+    // Redirigir al usuario a la página de inicio de sesión
+    navigate('/');
+  };
 
   useEffect(() => {
     if (recordingBlob) {
@@ -332,6 +341,9 @@ const CasaDomotica = () => {
 
   return (
     <div className="casa-domotica">
+      <div className="logout-button-container">
+        <button onClick={handleLogout}>Cerrar Sesión</button>
+      </div>
       <SegundoPiso {...deviceStates} setDeviceStates={setDeviceStates} />
       <PlantaBaja {...deviceStates} setDeviceStates={setDeviceStates} />
       <div>

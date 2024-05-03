@@ -15,10 +15,8 @@ function RegisterForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Evento "register" emitido');
         socket.emit('register', { registerUsername, registerEmail, registerPassword });
-        console.log('Datos enviados al backend')
-      };
+    };
     
     const redirectToLogin = () => {
         navigate("/");

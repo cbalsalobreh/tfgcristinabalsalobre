@@ -3,6 +3,7 @@
   height: 400px;
   position: left;
   margin: 0px auto;
+
   }
   
   .habitacion-principal,
@@ -11,7 +12,6 @@
     position: absolute;
     height: 400px;
     width: 300px;
-
   }
   
   .habitacion-principal {

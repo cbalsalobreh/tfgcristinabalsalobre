@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import '../../public/css/LoginForm.css';
 
-const ENDPOINT = 'http://localhost:5001'; // Reemplaza localhost:5001 con la dirección y puerto de tu servidor Flask-SocketIO
+const ENDPOINT = 'http://localhost:5001'; 
 const socket = io(ENDPOINT);
 
 function LoginForm() {
@@ -14,20 +14,13 @@ function LoginForm() {
 
     const handleLoginSubmit = (event) => {
         event.preventDefault();
-        console.log('Evento "login" emitido')
         // Envía los datos de inicio de sesión al servidor
         socket.emit('login', { loginUsername, loginPassword });
-        console.log('Datos de login enviados al backend')
     };
 
     socket.on('login_response', (data) => {
-        console.log('Evento login_response recibido:', data); // Verifica los datos recibidos del servidor
-    
         if (data.redirect) {
-            console.log('Redirigiendo a:', data.redirect); // Verifica la URL de redirección
-    
             window.location.href = data.redirect;
-            console.log('Redirigiendo'); // Verifica si la redirección se está realizando correctamente
         } else {
             const errorMessage = data.message || 'Inicio de sesión fallido';
             console.error(errorMessage);

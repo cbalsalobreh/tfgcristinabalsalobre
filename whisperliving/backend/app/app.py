@@ -18,12 +18,10 @@ def handle_audio(audio_data):
     try:
         # Convertir los datos de audio de base64 a bytes
         audio_bytes = base64.b64decode(audio_data)
-
         # Guardar los datos de audio en un archivo temporal
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio_file:
             temp_audio_file.write(audio_bytes)
             temp_audio_file_path = temp_audio_file.name
-
         print("Audio guardado en archivo temporal:", temp_audio_file_path)
 
         # Cargar el audio desde el archivo temporal y procesarlo con Whisper
@@ -51,31 +49,22 @@ def save_user_to_database(username, email, password):
 
 @socketio.on('register')
 def handle_register(data):
-    print('Recibiendo datos')
     username = data.get('registerUsername')
     email = data.get('registerEmail')
     password = data.get('registerPassword')
-
-    # Aquí puedes procesar los datos de registro, como guardarlos en la base de datos
-    print(f"Registrando usuario: {username}, {email}, {password}")
+    # Guardar los datos de usuario en la base de datos
     save_user_to_database(username, email, password)
-
     # Envía una respuesta de confirmación al cliente que originó el evento 'register'
     socketio.emit('register_response', {'message': 'Registro exitoso'})
 
 @socketio.on('login')
 def handle_login(data):
-    print('Datos recibidos')
     login_username = data.get('loginUsername')
     login_password = data.get('loginPassword')
-    print(f"Intento de inicio de sesión - Usuario: {login_username}, Contraseña: {login_password}")
-
     # Enviar la URL de redirección como parte de la respuesta
     redirect_url = '/casa-domotica'
-    print('Redirigiendo')
     # Envía una respuesta de confirmación al cliente que originó el evento 'login', incluyendo la URL de redirección
     socketio.emit('login_response', {'message': 'Inicio de sesión exitoso', 'redirect': redirect_url})
-    print('Redirigida')
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5001)
