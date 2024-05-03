@@ -1,36 +1,38 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import '../../public/css/LoginForm.css';
+
+const ENDPOINT = 'http://localhost:5001'; // Reemplaza localhost:5001 con la dirección y puerto de tu servidor Flask-SocketIO
+const socket = io(ENDPOINT);
 
 function LoginForm() {
     const [loginUsername, setLoginUsername] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
-    const [message, setMessage] = useState('');
+    const [message] = useState('');
     const navigate = useNavigate();
 
-    const handleLoginSubmit = async (event) => {
+    const handleLoginSubmit = (event) => {
         event.preventDefault();
-
-        try {
-            const response = await axios.post('/', {
-                username: loginUsername,
-                password: loginPassword
-            });
-
-            const responseData = response.data;
-
-            if (response.status === 200 && responseData.access_token) {
-                setMessage('');
-                localStorage.setItem('token', responseData.access_token); // Almacena el token en el localStorage
-                navigate('/casa-domotica');
-            } else {
-                setMessage(responseData.message || 'Error: Failed to authenticate');
-            }
-        } catch (error) {
-            setMessage('Error: Failed to authenticate');
-        }
+        console.log('Evento "login" emitido')
+        // Envía los datos de inicio de sesión al servidor
+        socket.emit('login', { loginUsername, loginPassword });
+        console.log('Datos de login enviados al backend')
     };
+
+    socket.on('login_response', (data) => {
+        console.log('Evento login_response recibido:', data); // Verifica los datos recibidos del servidor
+    
+        if (data.redirect) {
+            console.log('Redirigiendo a:', data.redirect); // Verifica la URL de redirección
+    
+            window.location.href = data.redirect;
+            console.log('Redirigiendo'); // Verifica si la redirección se está realizando correctamente
+        } else {
+            const errorMessage = data.message || 'Inicio de sesión fallido';
+            console.error(errorMessage);
+        }
+    });
 
     const redirectToRegister = () => {
         navigate('/register');
@@ -59,4 +61,3 @@ function LoginForm() {
 }
 
 export default LoginForm;
-
