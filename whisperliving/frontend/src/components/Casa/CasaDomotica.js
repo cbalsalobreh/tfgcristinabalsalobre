@@ -257,11 +257,10 @@ const CasaDomotica = () => {
     
     const updateToldoPosicion = (data) => {
       const currentDeviceStates = { ...deviceStates };
-      // Palabras clave para actualizar la posición del toldo
       const posicionToldoKeywords = {
         'recoger toldo': 0,
         'sacar un poco el toldo': 25,
-        'sacar toldo a la mitad': 50,
+        'sacar mitad toldo': 50,
         'sacar bastante el toldo': 75,
         'sacar toldo': 100
       };
@@ -283,7 +282,6 @@ const CasaDomotica = () => {
     
     const updatePersianaPosicion = (data) => {
       const currentDeviceStates = { ...deviceStates };
-    
       // Palabras clave para actualizar la posición de la persiana
       const posicionPersianaKeywords = {
         'subir persiana': 4,
