@@ -1,31 +1,38 @@
 .segundo-piso {
     position: left;
-    width: 900px;
     height: 400px;
-    width: 300px;
   }
   
   .cuarto1,
   .cuarto2,
-  .salita {
+  .salita,
+  .banno {
     position: absolute;
     height: 400px;
-    width: 300px;
   }
 
   .cuarto1 {
-    position:left;
-    border: 1px solid #000;
+    left:0px;
+    width:250px;
   }
+  
+  .banno {
+    left: 125px;
+    width:250px;
+  }
+  
   
   .cuarto2 {
-    left:150px;
+    left: 250px; 
+    width:250px;
   }
   
+  
   .salita {
-    left: 300px;
-    border: 1px solid #000;
+    left: 375px; 
+    width:250px;
   }
+  
   
 
 .cuarto1 .reproductor-musica {

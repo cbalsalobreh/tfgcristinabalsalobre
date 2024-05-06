@@ -1,6 +1,7 @@
 /* Estilos generales para el contenedor de la cocina */
-.cocina {
+.cocina .cocina{
     padding: 0px;
+    border: 1px solid #000;
   }
 
   .cocina h2 {

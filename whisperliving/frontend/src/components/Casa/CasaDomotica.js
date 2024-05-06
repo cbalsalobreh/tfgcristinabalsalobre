@@ -29,6 +29,7 @@ const CasaDomotica = () => {
     luzCuarto2: true,
     luzSalita: true,
     luzLampara: true,
+    luzBanno: true,
     temperaturaAire: null,
     temperaturaCalefaccion: null,
     temperaturaNevera: null,
@@ -127,6 +128,8 @@ const CasaDomotica = () => {
             currentLightStates.luzSalita = true;
           } else if (data.toLowerCase().includes('lámpara')){
             currentLightStates.luzLampara = true;
+          } else if (data.toLowerCase().includes('luz baño')){
+            currentLightStates.luzBanno = true;
           }
         }
       });
@@ -147,6 +150,8 @@ const CasaDomotica = () => {
             currentLightStates.luzSalita = false;
           } else if (data.toLowerCase().includes('lámpara')){
             currentLightStates.luzLampara = false;
+          } else if (data.toLowerCase().includes('luz baño')){
+            currentLightStates.luzBanno = false;
           }
         }
       });
@@ -159,7 +164,8 @@ const CasaDomotica = () => {
         luzCuarto1: currentLightStates.luzCuarto1,
         luzCuarto2: currentLightStates.luzCuarto2,
         luzSalita: currentLightStates.luzSalita,
-        luzLampara: currentLightStates.luzLampara
+        luzLampara: currentLightStates.luzLampara,
+        luzBanno: currentLightStates.luzBanno
       }));
     };
     

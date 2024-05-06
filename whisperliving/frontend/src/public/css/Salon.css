@@ -1,6 +1,8 @@
 
-.salon {
+.salon .salon{
     padding: 0px;
+    border: 1px solid #000;
+    margin-left: 1px;
   }
   
 

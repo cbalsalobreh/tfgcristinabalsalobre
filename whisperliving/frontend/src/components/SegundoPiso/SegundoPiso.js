@@ -1,14 +1,16 @@
 import React from 'react';
 import Cuarto from './Cuarto';
+import Banno from './Banno';
 import Salita from './Salita';
 import '../../public/css/SegundoPiso.css';
 
 const SegundoPiso = ({
-  temperaturaAire, setTemperaturaAire,
-  temperaturaCalefaccion, setTemperaturaCalefaccion,
+  temperaturaAire,
+  temperaturaCalefaccion,
   luzCuarto1,listaReproduccionCuarto1,
   luzCuarto2,listaReproduccionCuarto2,
-  luzSalita, setLuzSalita
+  luzSalita,
+  luzBanno
 }) => {
   return (
     <div className="segundo-piso">
@@ -17,6 +19,9 @@ const SegundoPiso = ({
         luzCuarto={luzCuarto1}
         listaReproduccion={listaReproduccionCuarto1}/>
       </div>
+      <div className='banno'>
+        <Banno luzBanno={luzBanno}/>
+      </div>
       <div className="cuarto2">
         <Cuarto numero={2} 
         luzCuarto={luzCuarto2} 
@@ -24,10 +29,8 @@ const SegundoPiso = ({
       </div>
       <div className="salita">
         <Salita temperaturaAire={temperaturaAire}
-        setTemperaturaAire={setTemperaturaAire}
         temperaturaCalefaccion={temperaturaCalefaccion}
-        setTemperaturaCalefaccion={setTemperaturaCalefaccion}
-        luzSalita={luzSalita} setLuzSalita={setLuzSalita}/>
+        luzSalita={luzSalita}/>
       </div>
     </div>
   );

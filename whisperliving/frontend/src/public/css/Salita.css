@@ -1,6 +1,8 @@
 
-.salita {
+.salita .salita{
     padding: 0px;
+    border: 1px solid black;
+    margin-left: 1px;
   }
   
   .salita h2 {

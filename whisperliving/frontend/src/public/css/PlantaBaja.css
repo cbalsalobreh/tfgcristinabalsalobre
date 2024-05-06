@@ -1,48 +1,42 @@
 .planta-baja {
-  width: 1200px;
+  width: 1300px;
   height: 400px;
   position: left;
   margin: 0px auto;
-
   }
   
   .habitacion-principal,
-  .cocina,
   .salon {
     position: absolute;
     height: 400px;
-    width: 300px;
-  }
-  
-  .habitacion-principal {
-    left: 300px;
-    border: 1px solid #000;
-  }
-  
-  .cocina {
-    left: 150px;
   }
   
   .salon {
+    width: 400px;
+    left: 300px;
+  }
+  
+  .cocina {
+    position: absolute;
+    height: 400px;
+    width: 300px;
+    left: 150px;
+  }
+  
+  .habitacion-principal {
+    width: 300px;
     left: 0px;
-    border: 1px solid #000;
   }
 
   .jardin {
     position: absolute;
     height: 400px;
     width: 300px;
-    left: 450px;
+    left: 500px;
   }
 
   .salon .television{
     float: right;
   }
 
-.luz-principal {
-  background-color: lightgrey; /* Color cuando la luz está apagada */
-}
 
-.luz-principal.encendida {
-  background-color: yellow; /* Color cuando la luz está encendida */
-}

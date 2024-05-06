@@ -1,6 +1,7 @@
 
-.habitacion-principal {
+.habitacion-principal .habitacion-principal{
     padding: 0px; 
+    border: 1px solid #000;
   }
   
   /* Estilos para el título de la habitación principal */

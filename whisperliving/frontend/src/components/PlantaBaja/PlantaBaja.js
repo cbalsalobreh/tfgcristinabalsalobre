@@ -21,11 +21,9 @@ const PlantaBaja = ({
 }) => {
   return (
     <div className="planta-baja">
-      <div className="salon">
-        <Salon tvEstado={tvEstado} setTvEstado={setTvEstado} 
-        tvCanal={tvCanal} setTvCanal={setTvCanal} 
-        luzSalon={luzSalon} setLuzSalon={setLuzSalon}
-        persianaPosicion={persianaPosicion} setPersianaPosicion={setPersianaPosicion}/>
+      <div className="habitacion-principal">
+        <HabitacionPrincipal luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}
+        luzLampara={luzLampara} setLuzLampara={setLuzLampara}/>
       </div>
       <div className="cocina">
         <Cocina temperaturaNevera={temperaturaNevera}
@@ -34,9 +32,11 @@ const PlantaBaja = ({
         setTemperaturaCongelador={setTemperaturaCongelador}
         luzCocina={luzCocina} setLuzCocina={setLuzCocina}/>
       </div>
-      <div className="habitacion-principal">
-        <HabitacionPrincipal luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}
-        luzLampara={luzLampara} setLuzLampara={setLuzLampara}/>
+      <div className="salon">
+        <Salon tvEstado={tvEstado} setTvEstado={setTvEstado} 
+        tvCanal={tvCanal} setTvCanal={setTvCanal} 
+        luzSalon={luzSalon} setLuzSalon={setLuzSalon}
+        persianaPosicion={persianaPosicion} setPersianaPosicion={setPersianaPosicion}/>
       </div>
       <div className='jardin'>
         <Jardin riego={riego} setRiego={setRiego} 

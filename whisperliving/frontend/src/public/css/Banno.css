@@ -1,14 +1,11 @@
-/* Estilos para el fondo y el diseño general del cuarto */
-.cuarto1,
-.cuarto2 {
+.banno .banno {
     padding: 0px; 
     position: relative;
     border: 1px solid black;
-
+    margin-left: 1px;
   }
   
-  .cuarto1 h2,
-  .cuarto2 h2 {
+  .banno h2 {
     color: #000000; 
     margin-bottom: 1px; 
     margin-left: 4px;
