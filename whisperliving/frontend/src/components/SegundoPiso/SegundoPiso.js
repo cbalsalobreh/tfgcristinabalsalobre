@@ -10,7 +10,8 @@ const SegundoPiso = ({
   luzCuarto1,listaReproduccionCuarto1,
   luzCuarto2,listaReproduccionCuarto2,
   luzSalita,
-  luzBanno
+  luzBanno,
+  ducha
 }) => {
   return (
     <div className="segundo-piso">
@@ -20,7 +21,7 @@ const SegundoPiso = ({
         listaReproduccion={listaReproduccionCuarto1}/>
       </div>
       <div className='banno'>
-        <Banno luzBanno={luzBanno}/>
+        <Banno luzBanno={luzBanno} ducha={ducha}/>
       </div>
       <div className="cuarto2">
         <Cuarto numero={2} 

@@ -40,7 +40,8 @@ const CasaDomotica = () => {
     listaReproduccionCuarto2: '',
     persianaPosicion: 62,
     riego: false,
-    toldoPosicion: 100
+    toldoPosicion: 100,
+    ducha: false
   });
 
   const handleLogout = () => {
@@ -76,6 +77,7 @@ const CasaDomotica = () => {
       updateRiego(data);
       updateToldoPosicion(data);
       updatePersianaPosicion(data);
+      updateDucha(data);
     };
   
     const updateTemperatures = (data) => {
@@ -257,6 +259,34 @@ const CasaDomotica = () => {
       setDeviceStates(prevState => ({
         ...prevState,
         riego: currentDeviceStates.riego,
+      }));
+    };
+
+    const updateDucha = (data) => {
+      const currentDeviceStates = { ...deviceStates };
+    
+      // Palabras clave para activar o desactivar el riego
+      const activarRiegoKeywords = ['activar ducha', 'encender ducha', 'activar la ducha', 'encender la ducha'];
+      const desactivarRiegoKeywords = ['desactivar ducha', 'apagar ducha', 'desactivar la ducha', 'apagar la ducha'];
+    
+      // Verificar si se menciona activar el riego
+      activarRiegoKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.ducha = true;
+        }
+      });
+    
+      // Verificar si se menciona desactivar el riego
+      desactivarRiegoKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.ducha = false;
+        }
+      });
+    
+      // Actualizar el estado del dispositivo con el nuevo estado del riego
+      setDeviceStates(prevState => ({
+        ...prevState,
+        ducha: currentDeviceStates.ducha,
       }));
     };
     
