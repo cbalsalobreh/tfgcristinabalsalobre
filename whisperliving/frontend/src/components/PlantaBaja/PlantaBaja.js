@@ -17,13 +17,15 @@ const PlantaBaja = ({
   luzLampara, setLuzLampara,
   riego, setRiego,
   toldoPosicion, setToldoPosicion,
-  persianaPosicion, setPersianaPosicion 
+  persianaPosicion, setPersianaPosicion,
+  alarma 
 }) => {
   return (
     <div className="planta-baja">
       <div className="habitacion-principal">
         <HabitacionPrincipal luzPrincipal={luzPrincipal} setLuzPrincipal={setLuzPrincipal}
-        luzLampara={luzLampara} setLuzLampara={setLuzLampara}/>
+        luzLampara={luzLampara} setLuzLampara={setLuzLampara}
+        alarma={alarma}/>
       </div>
       <div className="cocina">
         <Cocina temperaturaNevera={temperaturaNevera}

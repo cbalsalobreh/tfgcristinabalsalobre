@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)
 
-audio_model = whisper.load_model("medium")
+audio_model = whisper.load_model("small")
 print("Cargado whisper")
 
 @socketio.on('audio')

@@ -41,7 +41,8 @@ const CasaDomotica = () => {
     persianaPosicion: 62,
     riego: false,
     toldoPosicion: 100,
-    ducha: false
+    ducha: false,
+    alarma: 'OFF'
   });
 
   const handleLogout = () => {
@@ -78,6 +79,7 @@ const CasaDomotica = () => {
       updateToldoPosicion(data);
       updatePersianaPosicion(data);
       updateDucha(data);
+      updateAlarma(data);
     };
   
     const updateTemperatures = (data) => {
@@ -266,18 +268,18 @@ const CasaDomotica = () => {
       const currentDeviceStates = { ...deviceStates };
     
       // Palabras clave para activar o desactivar el riego
-      const activarRiegoKeywords = ['activar ducha', 'encender ducha', 'activar la ducha', 'encender la ducha'];
-      const desactivarRiegoKeywords = ['desactivar ducha', 'apagar ducha', 'desactivar la ducha', 'apagar la ducha'];
+      const activarDuchaKeywords = ['activar ducha', 'encender ducha', 'activar la ducha', 'encender la ducha'];
+      const desactivarDuchaKeywords = ['desactivar ducha', 'apagar ducha', 'desactivar la ducha', 'apagar la ducha'];
     
       // Verificar si se menciona activar el riego
-      activarRiegoKeywords.forEach(keyword => {
+      activarDuchaKeywords.forEach(keyword => {
         if (data.toLowerCase().includes(keyword)) {
           currentDeviceStates.ducha = true;
         }
       });
     
       // Verificar si se menciona desactivar el riego
-      desactivarRiegoKeywords.forEach(keyword => {
+      desactivarDuchaKeywords.forEach(keyword => {
         if (data.toLowerCase().includes(keyword)) {
           currentDeviceStates.ducha = false;
         }
@@ -290,6 +292,34 @@ const CasaDomotica = () => {
       }));
     };
     
+    const updateAlarma = (data) => {
+      const currentDeviceStates = { ...deviceStates };
+    
+      // Palabras clave para activar o desactivar el riego
+      const activarAlarmaKeywords = ['activar alarma', 'encender alarma', 'activar la alarma', 'encender la alarma'];
+      const desactivarAlarmaKeywords = ['desactivar alarma', 'apagar alarma', 'desactivar la alarma', 'apagar la alarma'];
+    
+      // Verificar si se menciona activar el riego
+      activarAlarmaKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.alarma = 'ON';
+        }
+      });
+    
+      // Verificar si se menciona desactivar el riego
+      desactivarAlarmaKeywords.forEach(keyword => {
+        if (data.toLowerCase().includes(keyword)) {
+          currentDeviceStates.alarma = 'OFF';
+        }
+      });
+    
+      // Actualizar el estado del dispositivo con el nuevo estado del riego
+      setDeviceStates(prevState => ({
+        ...prevState,
+        alarma: currentDeviceStates.alarma,
+      }));
+    };
+
     
     const updateToldoPosicion = (data) => {
       const currentDeviceStates = { ...deviceStates };

@@ -1,0 +1,15 @@
+.alarma {
+    background-color: white;
+    border: 1px solid rgb(115, 115, 115);
+    padding: 0px;
+    margin-top: -230px;  
+    width: 150px;
+    height: 90px;
+    border-radius: 20px;
+    margin-left: 140px;
+}
+
+.alarma h4{
+    text-align: center;
+    line-height: 10px;
+}
