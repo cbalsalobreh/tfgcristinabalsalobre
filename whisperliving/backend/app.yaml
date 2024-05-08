@@ -1,0 +1,11 @@
+runtime: python39  # Specify the runtime (Python 3.9 in this case)
+
+env: flex  # Optional: Use the 'flex' environment for automatic scaling
+
+service: whisperliving  # Replace with your desired service name
+
+handlers:
+  - url: /static/*  # Serve static files from the React build directory
+    static_dir: build/static
+  - url: /.*  # Handle all other requests
+    script: app.py  # Replace with your Flask app's entry point script
