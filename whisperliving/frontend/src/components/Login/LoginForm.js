@@ -1,21 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 import '../../public/css/LoginForm.css';
 
-const ENDPOINT = 'http://localhost:5001'; 
-const socket = io(ENDPOINT);
+const socket = io.connect('http://localhost:5001');
 
 function LoginForm() {
     const [loginUsername, setLoginUsername] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
-    const [message] = useState('');
+    const [csrfToken, setCsrfToken] = useState('');
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Al montar el componente, solicita y guarda el token CSRF
+        fetchCsrfToken();
+    }, []);
+
+    const fetchCsrfToken = async () => {
+        try {
+            const response = await fetch('http://localhost:5001/');
+            const data = await response.json();
+            setCsrfToken(data.csrf_token);
+        } catch (error) {
+            console.error('Error al obtener el token CSRF:', error);
+        }
+    };
 
     const handleLoginSubmit = (event) => {
         event.preventDefault();
-        // Envía los datos de inicio de sesión al servidor
-        socket.emit('login', { loginUsername, loginPassword });
+        // Envía los datos de inicio de sesión al servidor junto con el token CSRF
+        socket.emit('login', { loginUsername, loginPassword, csrfToken });
     };
 
     socket.on('login_response', (data) => {
@@ -23,7 +38,7 @@ function LoginForm() {
             window.location.href = data.redirect;
         } else {
             const errorMessage = data.message || 'Inicio de sesión fallido';
-            console.error(errorMessage);
+            setMessage(errorMessage);
         }
     });
 

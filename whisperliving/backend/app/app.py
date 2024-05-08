@@ -1,19 +1,38 @@
-from flask import Flask, jsonify, request, render_template, redirect, url_for
-from flask_socketio import SocketIO, emit
+from flask import Flask, jsonify, request, render_template, redirect, url_for, session
+from flask_session import Session
+from flask_socketio import SocketIO, emit, disconnect
 import sqlite3
 import whisper
 from flask_cors import CORS
 import base64
 import tempfile
 from urllib.request import urlopen
+from flask_wtf.csrf import generate_csrf
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
+app.config['SESSION_TYPE'] = 'filesystem' 
 socketio = SocketIO(app, cors_allowed_origins="*")
 CORS(app)
+Session(app)
 
 audio_model = whisper.load_model("small")
 print("Cargado whisper")
+
+@socketio.on('connect')
+def handle_connect():
+    try:
+        csrf_token = request.args.get('csrf_token')
+        # Validar el token CSRF recibido desde el cliente
+        if csrf_token == session.get('csrf_token'):
+            print("Token CSRF válido:", csrf_token)
+            # Realizar otras operaciones después de la validación del token CSRF
+        else:
+            print("Token CSRF inválido:", csrf_token)
+            # Desconectar al cliente u otra acción en caso de token CSRF inválido
+            disconnect()
+    except Exception as e:
+        print("Error al manejar la conexión:", e)
 
 @socketio.on('audio')
 def handle_audio(audio_data):
@@ -57,6 +76,16 @@ def handle_register(data):
     save_user_to_database(username, email, password)
     # Envía una respuesta de confirmación al cliente que originó el evento 'register'
     socketio.emit('register_response', {'message': 'Registro exitoso'})
+
+@app.route('/')
+def index():
+    # Genera el token CSRF y guárdalo en la sesión
+    csrf_token = generate_csrf()
+    print('Token CSFR generado')
+    session['csrf_token'] = csrf_token
+    print('Sesión generada')
+    # Devuelve el token CSRF como respuesta
+    return jsonify({'csrf_token': csrf_token})
 
 @socketio.on('login')
 def handle_login(data):
