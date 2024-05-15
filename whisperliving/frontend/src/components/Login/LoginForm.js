@@ -35,6 +35,7 @@ function LoginForm() {
 
     socket.on('login_response', (data) => {
         if (data.redirect) {
+            localStorage.setItem('token', data.token); 
             window.location.href = data.redirect;
         } else {
             const errorMessage = data.message || 'Inicio de sesión fallido';

@@ -18,6 +18,7 @@ const CasaDomotica = () => {
     recordingBlob
   } = useAudioRecorder();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [transcription, setTranscription] = useState('');
   const [audioUrl, setAudioUrl] = useState('');
   const navigate = useNavigate();
@@ -49,12 +50,21 @@ const CasaDomotica = () => {
     // Eliminar datos de inicio de sesión del almacenamiento local
     localStorage.removeItem('token');
     // Redirigir al usuario a la página de inicio de sesión
-    navigate('/');
+    navigate('/', { replace: true });
   };
 
   const handleViewUserData = () => {
-    navigate("/user");
-};
+    navigate("/user", { replace: true });
+  };
+
+  useEffect(() => {
+    const userAuthorized= localStorage.getItem('token');
+    setIsLoggedIn(userAuthorized);
+    if (!userAuthorized) {
+      navigate('/unauthorized', { replace: true })
+    }
+  }, [navigate]);
+
 
   useEffect(() => {
     if (recordingBlob) {
@@ -434,6 +444,8 @@ const CasaDomotica = () => {
 
   return (
     <div className="casa-domotica">
+      {isLoggedIn ? (
+        <>
       <div className="logout-button-container">
         <button onClick={handleViewUserData}>Datos del Usuario</button>
         <button onClick={handleLogout}>Cerrar Sesión</button>
@@ -460,6 +472,10 @@ const CasaDomotica = () => {
           </div>
         )}
       </div>
+      </>
+      ) : (
+        <></> // No se muestra ningún contenido si el usuario no está autorizado
+      )}
     </div>
   );
 };
