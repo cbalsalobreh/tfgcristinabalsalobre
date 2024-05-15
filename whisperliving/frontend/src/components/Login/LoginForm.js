@@ -40,6 +40,7 @@ function LoginForm() {
             const errorMessage = data.message || 'Inicio de sesión fallido';
             setMessage(errorMessage);
         }
+
     });
 
     const redirectToRegister = () => {

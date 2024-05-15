@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginForm from './components/Login/LoginForm.js';
 import RegisterForm from './components/Login/RegisterForm.js';
 import CasaDomotica from './components/Casa/CasaDomotica.js';
+import User from './components/Login/User.js';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/casa-domotica" element={<CasaDomotica />}/>
+            <Route path="/user" element={<User />}/>
           </Routes>
         </BrowserRouter>
       </div>

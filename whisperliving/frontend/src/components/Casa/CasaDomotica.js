@@ -52,6 +52,10 @@ const CasaDomotica = () => {
     navigate('/');
   };
 
+  const handleViewUserData = () => {
+    navigate("/user");
+};
+
   useEffect(() => {
     if (recordingBlob) {
       const reader = new FileReader();
@@ -59,7 +63,14 @@ const CasaDomotica = () => {
       reader.onloadend = () => {
         const base64Data = reader.result.split(',')[1];
         socket.emit('audio', base64Data);
-        setAudioUrl(URL.createObjectURL(recordingBlob)); // Mostrar audio en el cliente
+        const newAudioUrl = URL.createObjectURL(recordingBlob);
+            setAudioUrl((prevAudioUrl) => {
+                // Revoke the old URL if it exists
+                if (prevAudioUrl) {
+                    URL.revokeObjectURL(prevAudioUrl);
+                }
+                return newAudioUrl;
+        });
       };
     }
   }, [recordingBlob]);
@@ -134,6 +145,15 @@ const CasaDomotica = () => {
             currentLightStates.luzLampara = true;
           } else if (data.toLowerCase().includes('luz baño')){
             currentLightStates.luzBanno = true;
+          } else if (data.toLowerCase().includes('todas las luces')){
+            currentLightStates.luzPrincipal = true;
+            currentLightStates.luzCocina = true;
+            currentLightStates.luzSalon = true;
+            currentLightStates.luzCuarto1 = true;
+            currentLightStates.luzCuarto2 = true;
+            currentLightStates.luzSalita = true;
+            currentLightStates.luzLampara = true;
+            currentLightStates.luzBanno = true;
           }
         }
       });
@@ -155,6 +175,15 @@ const CasaDomotica = () => {
           } else if (data.toLowerCase().includes('lámpara')){
             currentLightStates.luzLampara = false;
           } else if (data.toLowerCase().includes('luz baño')){
+            currentLightStates.luzBanno = false;
+          } else if (data.toLowerCase().includes('todas las luces')){
+            currentLightStates.luzPrincipal = false;
+            currentLightStates.luzCocina = false;
+            currentLightStates.luzSalon = false;
+            currentLightStates.luzCuarto1 = false;
+            currentLightStates.luzCuarto2 = false;
+            currentLightStates.luzSalita = false;
+            currentLightStates.luzLampara = false;
             currentLightStates.luzBanno = false;
           }
         }
@@ -326,7 +355,7 @@ const CasaDomotica = () => {
       const posicionToldoKeywords = {
         'recoger toldo': 0,
         'sacar un poco el toldo': 25,
-        'sacar mitad toldo': 50,
+        'sacar mitad del toldo': 50,
         'sacar bastante el toldo': 75,
         'sacar toldo': 100
       };
@@ -352,7 +381,7 @@ const CasaDomotica = () => {
       const posicionPersianaKeywords = {
         'subir persiana': 4,
         'bajar un poco la persiana': 18,
-        'bajar persiana a la mitad': 31,
+        'bajar a la mitad la persiona': 31,
         'bajar bastante la persiana': 45,
         'bajar persiana': 62
       };
@@ -406,6 +435,7 @@ const CasaDomotica = () => {
   return (
     <div className="casa-domotica">
       <div className="logout-button-container">
+        <button onClick={handleViewUserData}>Datos del Usuario</button>
         <button onClick={handleLogout}>Cerrar Sesión</button>
       </div>
       <SegundoPiso {...deviceStates} setDeviceStates={setDeviceStates} />
@@ -422,7 +452,7 @@ const CasaDomotica = () => {
         <p>Transcripción: {transcription}</p>
         {audioUrl && (
           <div>
-            <audio controls>
+            <audio controls key = {audioUrl}>
               <source src={audioUrl}/>
               Su navegador no soporta el elemento de audio.
             </audio>

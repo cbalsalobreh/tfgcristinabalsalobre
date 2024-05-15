@@ -9,10 +9,10 @@ function Banno({ luzBanno, ducha }) {
     <div className="banno">
       { luzBanno ? <LuzDeTechoEncendida /> : <LuzDeTechoApagada /> }
       <h2>Baño</h2>
-      <div class="shower">
-        <div class="head"></div>
-        <div class="pipe"></div>
-        <div class="base"></div>
+      <div className="shower">
+        <div className="head"></div>
+        <div className="pipe"></div>
+        <div className="base"></div>
       </div>
       {ducha && <Ducha />}
     </div>
